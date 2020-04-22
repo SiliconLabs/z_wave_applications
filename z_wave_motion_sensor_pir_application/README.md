@@ -2,7 +2,9 @@
 
 ## Summary ##
 
-This project shows the implementation of PIR sensor with Z-Wave.
+This project shows the implementation of PIR sensor with Z-Wave. The PIR sensor on the occupancy sensor EXP board enables the internal ADC of ZGM130S to take periodic measurements. CRYOTIMER is
+set to signal the ADC using PRS. The Op-Amp is configured to use the external one on the board. A simple motion detection algorithm is implemented to post-process ADC samples. Once the motion 
+is detected, it will send an event to the Z-Wave application layer to start transmitting RF frames.
 
 ## Gecko SDK version ##
 
