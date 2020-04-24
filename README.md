@@ -11,11 +11,13 @@
   </tr>
 </table>
 
-# Silicon Labs Bluetooth Applications #
+# Silicon Labs Z-Wave Applications #
 
 The Silicon Labs Z-Wave stack allows for a wide variety applications to be built on its foundation. This repo showcases some example applications built using the Silicon Labs Z-Wave stack.
 
 ## Examples ##
+
+- Z-Wave with PIR Motion Sensor
 
 ## Documentation ##
 
