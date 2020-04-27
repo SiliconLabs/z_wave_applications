@@ -31,7 +31,7 @@ To add the node to Z-Wave network, you need to plug the UZB7 Controller USB Dong
 
 ## .sls Projects Used ##
 
-- MotionSensorPIR.sls
+- z_wave_motion_sensor_pir_zgm130s.sls
 
 ## Special Notes ##
 
