@@ -22,6 +22,8 @@
 /****************************************************************************/
 /*                              INCLUDE FILES                               */
 /****************************************************************************/
+#include <pir.h>
+#include <pir_config.h>
 #include "config_rf.h"
 #include <stdbool.h>
 #include <stdint.h>
@@ -29,8 +31,6 @@
 #include "SizeOf.h"
 #include "Assert.h"
 #include "DebugPrintConfig.h"
-#include "occupancy_exp.h"
-#include "pirdrv.h"
 
 //To enable DEBUGPRINT you must first undefine DISABLE_USART0
 //In Simplicity Studio open Project->Properties->C/C++ General->Paths and Symbols
@@ -187,6 +187,7 @@ STATE_APP;
 #define MAX_SLEEP_TIME     86400 // 24 hours
 #define STEP_SLEEP_TIME    20
 
+#define QUEUE_LENGTH       12
 /****************************************************************************/
 /*                              PRIVATE DATA                                */
 /****************************************************************************/
@@ -194,7 +195,7 @@ STATE_APP;
 static SPowerLock_t m_RadioPowerLock;
 static SPowerLock_t m_PeripheralPowerLock;
 static bool pirStart = false;
-
+static pir_sample_t pirQueue[QUEUE_LENGTH];
 
 /**
  * Please see the description of app_node_information_t.
@@ -439,6 +440,9 @@ void writeBatteryData(const SBatteryData* pBatteryData);
 bool CheckBatteryLevel(void);
 bool ReportBatteryLevel(void);
 
+void PIR_MotionDetectCallback(bool motionOn);
+void PIR_ADCIRQCallback();
+
 /**
 * @brief Called when protocol puts a frame on the ZwRxQueue.
 */
@@ -643,16 +647,6 @@ ApplicationInit(EResetReason_t eResetReason)
   Board_ConfigLed(BOARD_RGB1_R, true);
   Board_ConfigLed(BOARD_RGB1_G, true);
   Board_ConfigLed(BOARD_RGB1_B, true);
-  /* PIR gpio */
-  GPIO_PinModeSet(LDO_SHDN_B_PORT, LDO_SHDN_B_PIN, gpioModePushPull, 0);  /* Disable the LDO. */
-  GPIO_PinModeSet(ADC_P_PORT, ADC_P_PIN, gpioModeDisabled, 0); // ADC_P
-  GPIO_PinModeSet(ADC_N_PORT, ADC_N_PIN, gpioModeDisabled, 0); // ADC_N
-#ifdef DISABLE_USART0
-  GPIO_PinModeSet(MOTION_B_PORT, MOTION_B_PIN, gpioModePushPull, 1);      /* Disable the EXP side LED. */
-#endif
-  //GPIO_PinModeSet(SENSOR_SCL_PORT, SENSOR_SCL_PIN, gpioModeWiredAndPullUp, 1);
-  //GPIO_PinModeSet(SENSOR_SDA_PORT, SENSOR_SDA_PIN, gpioModeWiredAndPullUp, 1);
-  //GPIO_PinModeSet(SENSOR_INT_PORT, SENSOR_INT_PIN, gpioModeWiredAndPullUp, 1);
 
   BRD420xBoardInit(RadioConfig.eRegion);
 
@@ -1105,12 +1099,29 @@ AppStateManager(EVENT_APP event)
         ZAF_JobHelperJobEnqueue(EVENT_APP_START_TIMER_EVENTJOB_STOP);
       }
 
+      if (EVENT_APP_ADC_INTERRUPT == event)
+      {
+        // Run motion detection algorithm
+    	pir_detect_motion();
+    	// Debug samples if needed
+        /*
+    	while(pir_get_queue_size() > 0)
+    	{
+          pir_sample_t sample;
+    	  pir_read_queue(&sample);
+    	  DPRINTF("\r\nPIR sample: %d, Motion status: %d\n", sample.adc_sample, sample.motion_status);
+    	}*/
+      }
       if (BTN_EVENT_SHORT_PRESS(PIR_EVENT_BTN) == (BUTTON_EVENT)event)
       {
     	if(pirStart)
         {
           pirStart = false;
-          PIR_Stop();
+          pir_stop();
+          Board_SetLed(BOARD_RGB1_R, LED_OFF);
+          Board_SetLed(BOARD_RGB1_G, LED_OFF);
+          Board_SetLed(BOARD_RGB1_B, LED_OFF);
+          GPIO_PinOutClear(MOTION_B_PORT, MOTION_B_PIN);
           DPRINT("\r\n** Sleep!!!\r\n");
           ZAF_PM_Cancel(&m_PeripheralPowerLock);
           ZAF_PM_Cancel(&m_RadioPowerLock);
@@ -1122,12 +1133,15 @@ AppStateManager(EVENT_APP event)
           //Init PIR
           pirStart = true;
           DPRINT("\r\n** Start PIR!!!\r\n");
-          /* Enable LDO to startup VPIR. */
-          GPIO_PinOutSet(LDO_SHDN_B_PORT, LDO_SHDN_B_PIN);
-          PIR_Init_TypeDef pirInit = PIR_INIT_DEFAULT;
-          pirInit.opampMode = pirOpampModeExternal;
-          PIR_Init(&pirInit, true);
-          PIR_Start();
+          pir_init_t pirInit = PIR_INIT_DEFAULT;
+          pirInit.opamp_mode = pir_opamp_mode_external;
+          pirInit.motion_detection_callback = PIR_MotionDetectCallback;
+          pirInit.sample_queue_size = QUEUE_LENGTH;
+          pirInit.sample_queue = pirQueue;
+          pirInit.use_timestamp = false;
+          pirInit.adc_irq_callback = PIR_ADCIRQCallback;
+          pir_init(&pirInit, true);
+          pir_start();
         }
 
         /* BATTERY_REPORT_BTN pressed. Send a battery level report */
@@ -1327,6 +1341,27 @@ AppStateManager(EVENT_APP event)
       // Do nothing.
       break;
   }
+}
+
+void PIR_MotionDetectCallback(bool motionOn)
+{
+  if(motionOn)
+  {
+	Board_SetLed(BOARD_RGB1_R, LED_OFF);
+	Board_SetLed(BOARD_RGB1_G, LED_ON);
+	GPIO_PinOutSet(MOTION_B_PORT, MOTION_B_PIN);
+	ZAF_EventHelperEventEnqueueFromISR(EVENT_APP_MOTION_DETECTED);
+  }else{
+	Board_SetLed(BOARD_RGB1_R, LED_ON);
+	Board_SetLed(BOARD_RGB1_G, LED_OFF);
+	GPIO_PinOutClear(MOTION_B_PORT, MOTION_B_PIN);
+  }
+}
+
+void PIR_ADCIRQCallback(void)
+{
+  // Notify AppStateManger ADC interrupt event
+  ZAF_EventHelperEventEnqueueFromISR(EVENT_APP_ADC_INTERRUPT);
 }
 
 /**
