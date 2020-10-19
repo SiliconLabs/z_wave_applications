@@ -1,0 +1,73 @@
+(ExpressProject ""
+  (ProjectVersion "19981106")
+  (ProjectType "PCB")
+  (Folder "Design Resources"
+    (Folder "Library")
+    (File ".\zgm130s-sensors_design2.dsn"
+      (Type "Schematic Design"))
+    (BuildFileAddedOrDeleted "x")
+    (CompileFileAddedOrDeleted "x")
+    (NoModify)
+    (Netlist_TAB "8")
+    (OTHER_Part_Value "{Value}")
+    (OTHER_Netlist_File "ZGM130S-SENSORS_DESIGN2.NET")
+    (OTHER_Netlist_File2 "ZGM130S-SENSORS_DESIGN2.CMP")
+    (OTHER_View_Output "FALSE")
+    (OTHER_View_Output2 "FALSE")
+    (OTHER_Formatter "PowerNET.exe")
+    (OTHER_PCB_Footprint "{PCB Footprint}")
+    (OTHER_Switch0 "FALSE")
+    (OTHER_Switch1 "FALSE")
+    (OTHER_Switch2 "FALSE")
+    (OTHER_Switch3 "FALSE")
+    (OTHER_Switch4 "FALSE")
+    (OTHER_Switch5 "FALSE")
+    (OTHER_Switch6 "FALSE")
+    (BOM_Scope "0")
+    (BOM_Mode "0")
+    (BOM_Report_File
+       "C:\USERS\CGTIDWEL\DROPBOX (SILICON LABS)\ENGINEERING SERVICES\SCHEMATIC\ZGM130S-SENSORS_DESIGN2.BOM")
+    (BOM_Merge_Include "FALSE")
+    (BOM_Property_Combine_7.0
+       "{Item}\t{Quantity}\t{Reference}\t{Value}\t{Manufacturer}\t{ManufacturerPN}\t{PCB Footprint}\t{Tolerance}\t{Rating}\t{Type}\t{Installed Component}")
+    (BOM_Header
+       "Item\tQuantity\tReference\tValue\tManufacturer\tPartNumber\tFootprint\tTolerance\tRating\tType\tNot Installed")
+    (BOM_Include_File
+       "C:\USERS\CGTIDWEL\DROPBOX (SILICON LABS)\ENGINEERING SERVICES\SCHEMATIC\ZGM130S-SENSORS_DESIGN2.INC")
+    (BOM_Include_File_Combine_7.0 "{Item}\t{Quantity}\t{Reference}\t{Value}")
+    (BOM_One_Part_Per_Line "FALSE")
+    (Open_BOM_in_Excel "TRUE")
+    (BOM_View_Output "FALSE"))
+  (Folder "Outputs"
+    (File ".\zgm130s-sensors_design2.bom"
+      (Type "Report")))
+  (Folder "Referenced Projects")
+  (PartMRUSelector)
+  (GlobalState
+    (FileView
+      (Path "Design Resources")
+      (Path "Design Resources" ".\zgm130s-sensors_design2.dsn")
+      (Path "Design Resources" ".\zgm130s-sensors_design2.dsn" "SCHEMATIC1")
+      (Path "Design Resources" ".\zgm130s-sensors_design2.dsn"
+         "Alternate Debug Power")
+      (Path "Outputs")
+      (Select "Design Resources" ".\zgm130s-sensors_design2.dsn"
+         "Alternate Debug Power" "Page 3: Sensors and Power"))
+    (HierarchyView)
+    (Doc
+      (Type "COrCapturePMDoc")
+      (Frame
+        (Placement "44 2 3 -1 -1 -4 -23 1268 1902 0 1057"))
+      (Tab 0))
+    (Doc
+      (Type "COrSchematicDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 -4 -23 66 1587 66 775")
+        (Scroll "0 0")
+        (Zoom "105"))
+      (Path
+         "C:\USERS\CGTIDWEL\DROPBOX (SILICON LABS)\ENGINEERING SERVICES\SCHEMATIC\ZGM130S-SENSORS_DESIGN2.DSN")
+      (Schematic "Alternate Debug Power")
+      (Page "Page 3: Sensors and Power")))
+  (ISPCBBASICLICENSE "false")
+  (MPSSessionName "cgtidwel"))
