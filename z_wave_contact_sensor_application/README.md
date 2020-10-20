@@ -66,6 +66,12 @@ static bool ButtonEnableEM4PinWakeup()
 ```
 The project should now build without any errors or warnings.
 
+## Try it out!
+
+Once you flashed the compiled binary to the board, include the sensor into your Z-Wave network by using the PC Controller Hardware and Software for example and have your Zniffer connected and running as well.<br>
+Once it's included, by moving and removing a magnet to / from the sensor or reed switch, a notification report containing the notification type (Home Security: 0x07) an event (0x00 for idle / Door Closed or 0x02 or 0z02 for intrusion / Door Opened) will be sent to the controller.<br>
+If you included the sensor with S2 security (Unauthenticated or Authenticated), the Notification CC will be encapsulated with a Supervision Get & Report CC.
+
 
 # Reporting Bugs/Issues and Posting Questions and Comments
 <ul>
