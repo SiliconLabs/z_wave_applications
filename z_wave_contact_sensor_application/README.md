@@ -17,11 +17,6 @@ Other hardware components:
 <li>1 PCB Antenna (Silabs version)</li>
 </ul>
 
-```
-#elif defined(CUSTOM_BOARD)
-#include "custom_board.h"
-```
-
 ## Project Setup
 
 ### Hardware Prerequisites for Debugging
@@ -36,21 +31,6 @@ Other hardware components:
   <li>Simplicity Studio v5 (SSv5)</li>
   <li>Gecko SDK Suite: Z-Wave SDK 7.14.3.0</li>
 </ul>
-
-### Required Modifications
-2 files that are part of the SDK need to be modified after importing the project into SSv5<br>
-board.h: At line 28 & 29 add:<br>
-
-```
-#elif defined(CUSTOM_BOARD)
-#include "custom_board.h"
-```
-
-board.c: At line 595: remove the "static" keyword from
-```
-static bool ButtonEnableEM4PinWakeup()
-```
-The project should now build without any errors or warnings.
 
 ## Hardware Set-Up
 
@@ -67,9 +47,25 @@ Make sure that while debugging the DIP switch is switched to VDBG (left). If usi
 
 ## Simplicity Studio Setup
 
-In Simplicity Studio, right click on the debug adapter board and click on Device Configuration.<br>
+In Simplicity Studio go to the Launcher menu and right click on the debug adapter board (column on the left) and click on Device Configuration.<br>
 Open the "Device Hardware" tab and under "Target Part" search for ZGM130S037HGN/1 and select it. Make sure that the target interface is selected with "SWD" (not JTAG).<br>
 ![Device Configurator](https://github.com/SiliconLabs/z_wave_applications_staging/tree/feature/z_wave_contact_sensor_application/z_wave_contact_sensor_application/docs/DeviceConfig.png)<br><br>
+Import the project by selecting File -> Import and browse to the location where the z_wave_contact_sensor_zgm130s.sls project file is located. Click "Next" and the project should be imported and visible in the Simplicity IDE.<br>
+
+### Required Modifications
+2 files that are part of the SDK need to be modified after importing the project into SSv5<br>
+board.h: At line 28 & 29 add:<br>
+
+```
+#elif defined(CUSTOM_BOARD)
+#include "custom_board.h"
+```
+board.c: At line 595: remove the "static" keyword from
+```
+static bool ButtonEnableEM4PinWakeup()
+```
+The project should now build without any errors or warnings.
+
 
 # Reporting Bugs/Issues and Posting Questions and Comments
 <ul>
