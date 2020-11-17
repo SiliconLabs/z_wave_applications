@@ -17,11 +17,6 @@ Other hardware components:
 <li>1 PCB Antenna (Silabs version)</li>
 </ul>
 
-```
-#elif defined(CUSTOM_BOARD)
-#include "custom_board.h"
-```
-
 ## Project Setup
 
 ### Hardware Prerequisites for Debugging
@@ -37,6 +32,26 @@ Other hardware components:
   <li>Gecko SDK Suite: Z-Wave SDK 7.14.3.0</li>
 </ul>
 
+## Hardware Set-Up
+
+All relevant hardware files (Layout, Schematic, BOM) for manufacturing the contact sensor PCB are supplied in the docs folder under "ZGM130S-SENSORS_DESIGN".
+For debugging purposes, it is generally advised to mount the Simplicity Mini Header on the PCB, so it can be connected to the WSTK board. This also enables you to make use of the Simplicity Studio Energy Profiler to observe power consumption behaviour during development.<br>
+For more info on debugging using the Simplicity Mini Header see AN958: https://www.silabs.com/documents/public/application-notes/an958-mcu-stk-wstk-guide.pdf <br><br>
+Connecting the Simplicity Header: <br>
+Connect one end of the ribbon cable to the Simplicity Header of the PCB (the 2 triangles facing each other)<br>
+![Simplicity Header on PCB](docs/SH_PCB.png)<br><br>
+Connect the other end of the ribbon cable to the Debug header labeled "Mini"<br><br>
+![Simplicity Header on WSTK](docs/SH_WSTK.png)<br><br>
+Make sure that while debugging the DIP switch is switched to VDBG (left). If using a coin cell battery switch to the right.<br>
+![DIP switch on PCB](docs/SH_PCB.png)<br><br>
+
+## Simplicity Studio Setup
+
+In Simplicity Studio go to the Launcher menu and right click on the debug adapter board (column on the left) and click on Device Configuration.<br>
+Open the "Device Hardware" tab and under "Target Part" search for ZGM130S037HGN/1 and select it. Make sure that the target interface is selected with "SWD" (not JTAG).<br>
+![Device Configurator](docs/DeviceConfig.png)<br><br>
+Import the project by selecting File -> Import and browse to the location where the z_wave_contact_sensor_zgm130s.sls project file is located. Click "Next" and the project should be imported and visible in the Simplicity IDE.<br>
+
 ### Required Modifications
 2 files that are part of the SDK need to be modified after importing the project into SSv5<br>
 board.h: At line 28 & 29 add:<br>
@@ -45,12 +60,18 @@ board.h: At line 28 & 29 add:<br>
 #elif defined(CUSTOM_BOARD)
 #include "custom_board.h"
 ```
-
 board.c: At line 595: remove the "static" keyword from
 ```
 static bool ButtonEnableEM4PinWakeup()
 ```
 The project should now build without any errors or warnings.
+
+## Try it out!
+
+Once you flashed the compiled binary to the board, include the sensor into your Z-Wave network by using the PC Controller Hardware and Software for example and have your Zniffer connected and running as well.<br>
+Once it's included, by moving and removing a magnet to / from the sensor or reed switch, a notification report containing the notification type (Home Security: 0x07) an event (0x00 for idle / Door Closed or 0x02 or 0z02 for intrusion / Door Opened) will be sent to the controller.<br><br>
+If you included the sensor with S2 security (Unauthenticated or Authenticated), the Notification CC will be encapsulated with a Supervision Get & Report CC.
+
 
 # Reporting Bugs/Issues and Posting Questions and Comments
 <ul>
