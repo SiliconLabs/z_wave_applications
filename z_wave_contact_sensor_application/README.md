@@ -39,17 +39,17 @@ For debugging purposes, it is generally advised to mount the Simplicity Mini Hea
 For more info on debugging using the Simplicity Mini Header see AN958: https://www.silabs.com/documents/public/application-notes/an958-mcu-stk-wstk-guide.pdf <br><br>
 Connecting the Simplicity Header: <br>
 Connect one end of the ribbon cable to the Simplicity Header of the PCB (the 2 triangles facing each other)<br>
-![Simplicity Header on PCB](https://github.com/SiliconLabs/z_wave_applications_staging/tree/feature/z_wave_contact_sensor_application/z_wave_contact_sensor_application/docs/SH_PCB.png)<br><br>
+![Simplicity Header on PCB](docs/SH_PCB.png)<br><br>
 Connect the other end of the ribbon cable to the Debug header labeled "Mini"<br><br>
-![Simplicity Header on WSTK](https://github.com/SiliconLabs/z_wave_applications_staging/tree/feature/z_wave_contact_sensor_application/z_wave_contact_sensor_application/docs/SH_PCB.png)<br><br>
+![Simplicity Header on WSTK](docs/SH_PCB.png)<br><br>
 Make sure that while debugging the DIP switch is switched to VDBG (left). If using a coin cell battery switch to the right.<br>
-![DIP switch on PCB](https://github.com/SiliconLabs/z_wave_applications_staging/tree/feature/z_wave_contact_sensor_application/z_wave_contact_sensor_application/docs/SH_PCB.png)<br><br>
+![DIP switch on PCB](docs/SH_PCB.png)<br><br>
 
 ## Simplicity Studio Setup
 
 In Simplicity Studio go to the Launcher menu and right click on the debug adapter board (column on the left) and click on Device Configuration.<br>
 Open the "Device Hardware" tab and under "Target Part" search for ZGM130S037HGN/1 and select it. Make sure that the target interface is selected with "SWD" (not JTAG).<br>
-![Device Configurator](https://github.com/SiliconLabs/z_wave_applications_staging/tree/feature/z_wave_contact_sensor_application/z_wave_contact_sensor_application/docs/DeviceConfig.png)<br><br>
+![Device Configurator](docs/DeviceConfig.png)<br><br>
 Import the project by selecting File -> Import and browse to the location where the z_wave_contact_sensor_zgm130s.sls project file is located. Click "Next" and the project should be imported and visible in the Simplicity IDE.<br>
 
 ### Required Modifications
