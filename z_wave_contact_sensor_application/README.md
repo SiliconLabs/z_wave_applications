@@ -43,7 +43,7 @@ Connect one end of the ribbon cable to the Simplicity Header of the PCB (the 2 t
 Connect the other end of the ribbon cable to the Debug header labeled "Mini"<br><br>
 ![Simplicity Header on WSTK](docs/SH_WSTK.png)<br><br>
 Make sure that while debugging the DIP switch is switched to VDBG (left). If using a coin cell battery switch to the right.<br>
-![DIP switch on PCB](docs/SH_PCB.png)<br><br>
+![DIP switch on PCB](docs/DIP.png)<br><br>
 
 ## Simplicity Studio Setup
 
