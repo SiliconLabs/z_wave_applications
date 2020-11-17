@@ -72,10 +72,9 @@ Once you flashed the compiled binary to the board, include the sensor into your 
 Once it's included, by moving and removing a magnet to / from the sensor or reed switch, a notification report containing the notification type (Home Security: 0x07) an event (0x00 for idle / Door Closed or 0x02 or 0z02 for intrusion / Door Opened) will be sent to the controller.<br><br>
 If you included the sensor with S2 security (Unauthenticated or Authenticated), the Notification CC will be encapsulated with a Supervision Get & Report CC.
 
-
 # Reporting Bugs/Issues and Posting Questions and Comments
 <ul>
-  To report bugs in the Application Examples projects, please create a new "Issue" in the "Issues" section of this repo. Please reference the board, project, and source files associated with the bug, and reference line numbers. If you are proposing a fix, also include information on the proposed fix. Since these examples are provided as-is, there is no guarantee that these examples will be updated to fix these issues.
+To report bugs in the Application Examples projects, please create a new "Issue" in the "Issues" section of this repo. Please reference the board, project, and source files associated with the bug, and reference line numbers. If you are proposing a fix, also include information on the proposed fix. Since these examples are provided as-is, there is no guarantee that these examples will be updated to fix these issues.
 </ul>
 <ul>
   Questions and comments related to these examples should be made by creating a new "Issue" in the "Issues" section of this repo.´
@@ -83,5 +82,5 @@ If you included the sensor with S2 security (Unauthenticated or Authenticated), 
 
 # Disclaimer
 <ul>
-  The Gecko SDK suite supports development with Silicon Labs IoT SoC and module devices. Unless otherwise specified in the specific directory, all examples are considered to be EXPERIMENTAL QUALITY which implies that the code provided in the repos has not been formally tested and is provided as-is. It is not suitable for production environments. In addition, this code will not be maintained and there may be no bug maintenance planned for these resources. Silicon Labs may update projects from time to time.
+The Gecko SDK suite supports development with Silicon Labs IoT SoC and module devices. Unless otherwise specified in the specific directory, all examples are considered to be EXPERIMENTAL QUALITY which implies that the code provided in the repos has not been formally tested and is provided as-is. It is not suitable for production environments. In addition, this code will not be maintained and there may be no bug maintenance planned for these resources. Silicon Labs may update projects from time to time.
 </ul>
