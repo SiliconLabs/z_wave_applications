@@ -1,27 +1,59 @@
-/**
- * Z-Wave Certified Application Sensor PIR
+/**************************************************************************//**
+ * @file ContactSensor_ReferenceDesign.c
+ * @brief Z-Wave Wall Controller application with gesture sensor
+ * @version 1.0.0
+*******************************************************************************
+ * # License
+ * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+*******************************************************************************
  *
- * @copyright 2018 Silicon Laboratories Inc.
- */
+ * SPDX-License-Identifier: Zlib
+ *
+ * The licensor of this software is Silicon Laboratories Inc.
+ *
+ * This software is provided 'as-is', without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
+ *
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ *
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ * 3. This notice may not be removed or altered from any source distribution.
+ *
+*******************************************************************************
+ * # Experimental Quality
+ * This code has not been formally tested and is provided as-is. It is not
+ * suitable for production environments. In addition, this code will not be
+ * maintained and there may be no bug maintenance planned for these resources.
+ * Silicon Labs may update projects from time to time.
+******************************************************************************/
 
 /****************************************************************************/
 /*                              INCLUDE FILES                               */
 /****************************************************************************/
+/* During development of your device, you may add features using command    */
+/* classes which are not already included. Remember to include relevant     */
+/* classes and utilities and add them in your make file.                    */
+/****************************************************************************/
 #include "config_rf.h"
 #include <stdbool.h>
 #include <stdint.h>
-
 #include "SizeOf.h"
 #include "Assert.h"
 #include "DebugPrintConfig.h"
-
 //To enable DEBUGPRINT you must first undefine DISABLE_USART0
 //In Simplicity Studio open Project->Properties->C/C++ General->Paths and Symbols
 //Remove DISABLE_USART0 from list found under # Symbols->GNU C
 #if !defined(DISABLE_USART1) || !defined(DISABLE_USART0)
 #define DEBUGPRINT
 #endif
-
 #include "DebugPrint.h"
 #include "config_app.h"
 #include "ZAF_app_version.h"
@@ -32,12 +64,8 @@
 #include <ZW_slave_api.h>
 #include <ZW_classcmd.h>
 #include <ZW_TransportLayer.h>
-
 #include <ZAF_uart_utils.h>
-
-/*IO control*/
-#include "board.h"
-
+#include "ZAF/ApplicationUtilities/board.h"
 #include <ev_man.h>
 #include <AppTimer.h>
 #include <string.h>
@@ -45,7 +73,6 @@
 #include <EventDistributor.h>
 #include <ZW_system_startup_api.h>
 #include <ZW_application_transport_interface.h>
-
 #include <association_plus.h>
 #include <agi.h>
 #include <CC_Association.h>
@@ -58,20 +85,14 @@
 #include <CC_Basic.h>
 #include <CC_FirmwareUpdate.h>
 #include <CC_ManufacturerSpecific.h>
-
 #include <CC_Battery.h>
 #include <CC_Notification.h>
-
 #include <CC_MultiChanAssociation.h>
-//Action: Added CC Multilevel Sensor
-#include <CC_MultilevelSensor.h>
-
 #include <CC_Supervision.h>
 #include <notification.h>
 #include <CC_WakeUp.h>
 #include <zaf_event_helper.h>
 #include <zaf_job_helper.h>
-
 #include <ZAF_Common_helper.h>
 #include <ZAF_PM_Wrapper.h>
 #include <ZAF_network_learn.h>
@@ -83,17 +104,18 @@
 #include "events.h"
 
 // Action: added driver header files needed for Si7021 T&H sensor
+#include <CC_MultilevelSensor.h>
 #include "i2cspm.h"
 #include "si7013.h"
-#include "ps_si7210.h"
-#include "si72xx.h"
-
-// Action: added driver headers needed for Hall Sensor
-#include "hall-effect-sensor-si7210.h"
-
+#include "em_emu.h"
+#include "gpiointerrupt.h"
+#include "thunderboard/hall_si7210.h"
+#include "thunderboard/hall.h"
+#include <si7210_reed_config.h>
 /****************************************************************************/
 /* Application specific button and LED definitions                          */
 /****************************************************************************/
+
 
 #if defined(RADIO_BOARD_EFR32ZG13P32) || defined(RADIO_BOARD_EFR32ZG13S)
   // The EFR32ZG13P32 device has reduced number of GPIO pins and hence less
@@ -115,52 +137,15 @@
 
 #else
 
-  #define PIR_EVENT_BTN        APP_WAKEUP_SLDR_BTN  // We prefer a wakeup enabled slider, but a button will do
+#define PIR_EVENT_BTN        APP_WAKEUP_SLDR_BTN  // We prefer a wakeup enabled slider, but a button will do
 
-  // Define the button events used to signify PIR sensor state transitions:
-  //
-  // PIR_EVENT_TRANSITION_TO_ACTIVE
-  //   The PIR_EVENT_BTN could be allocated to either a slider or a button.
-  //   - The slider will always send a DOWN event when moved to the ON position.
-  //   - A button will send SHORT_PRESS or HOLD event when pressed. Only the
-  //     HOLD event will be followed by an UP event when the button is
-  //     released. Since we need the UP event later to cancel the power
-  //     lock, we ignore the SHORT_PRESS event here.
-//  #define PIR_EVENT_TRANSITION_TO_ACTIVE(event)   ((BTN_EVENT_DOWN(PIR_EVENT_BTN) == (BUTTON_EVENT)event) || (BTN_EVENT_HOLD(PIR_EVENT_BTN) == (BUTTON_EVENT)event))
-
-// Tamper Button
-// Currently only activated when button is pressed. The solution should be that button is pressed by default and is activated once released
 #define APP_BUTTON_TMP_TRANSITION_TO_ACTIVE(event)   ((BTN_EVENT_DOWN(APP_BUTTON_TMP) == (BUTTON_EVENT)event) || \
                                                    (BTN_EVENT_HOLD(APP_BUTTON_TMP) == (BUTTON_EVENT)event))
-
-  // PIR_EVENT_TRANSITION_TO_DEACTIVE
-  //   The PIR_EVENT_BTN could be allocated to either a slider or a button.
-  //   The slider will always send an UP event when moved to the OFF position.
-  //   A button will send either an UP, SHORT_PRESS or LONG_PRESS on release
-  //   depending on how long it has been pressed.
-//  #define PIR_EVENT_TRANSITION_TO_DEACTIVE(event) ((BTN_EVENT_UP(PIR_EVENT_BTN) == (BUTTON_EVENT)event) || (BTN_EVENT_SHORT_PRESS(PIR_EVENT_BTN) == (BUTTON_EVENT)event) || (BTN_EVENT_LONG_PRESS(PIR_EVENT_BTN) == (BUTTON_EVENT)event))
-
-// Tamper Button
 #define APP_BUTTON_TMP_TRANSITION_TO_DEACTIVE(event) ((BTN_EVENT_UP(APP_BUTTON_TMP) == (BUTTON_EVENT)event) || \
                                                    (BTN_EVENT_SHORT_PRESS(APP_BUTTON_TMP) == (BUTTON_EVENT)event) || \
                                                    (BTN_EVENT_LONG_PRESS(APP_BUTTON_TMP) == (BUTTON_EVENT)event))
 
-
 #endif
-
-// Comment battery button
-// #define BATTERY_REPORT_BTN   APP_BUTTON_A         // This button cannot wake up the device from EM4
-                                                  // (i.e. it will generally not work with SensorPIR)
-
-
-// Deactivated for now
-/* Ensure we did not allocate the same physical button to more than one function */
-//#if !defined(RADIO_BOARD_EFR32ZG13P32) && !defined(RADIO_BOARD_EFR32ZG13S) // Skipped for EFR32ZG13P32 where the shortage of GPIOs means we need to assign dual function to buttons
-//STATIC_ASSERT((APP_BUTTON_LEARN_RESET != PIR_EVENT_BTN) &&
-//              (APP_BUTTON_LEARN_RESET != BATTERY_REPORT_BTN) &&
-//              (PIR_EVENT_BTN != BATTERY_REPORT_BTN),
-//              STATIC_ASSERT_FAILED_button_overlap);
-//#endif
 
 /****************************************************************************/
 /*                      PRIVATE TYPES and DEFINITIONS                       */
@@ -185,7 +170,6 @@ typedef struct SApplicationData
   uint8_t lastReportedReedState;
 } SApplicationData;
 
-// Action added on 13/12 from SDK7.11.1
 #define FILE_SIZE_APPLICATIONDATA     (sizeof(SApplicationData))
 
 /**
@@ -227,8 +211,6 @@ STATE_APP;
 #define STEP_SLEEP_TIME    20
 
 
-
-
 // Action: Added custom I2C configuration (needed for both Si7021 & Si7210)
 // see datasheet of ZGM130S for more information
 #define I2CSPM_INIT_SENSOR                                                    \
@@ -244,17 +226,17 @@ STATE_APP;
     i2cClockHLRStandard,       /* Set to use 4:4 low/high duty cycle */       \
   }
 
+
+
 /****************************************************************************/
 /*                              PRIVATE DATA                                */
 /****************************************************************************/
 
-// Action: I2C structure used for communication with I2C sensors (applicable to all I2C sensors)
+
 static I2CSPM_Init_TypeDef i2cInit = I2CSPM_INIT_SENSOR;
-// Action: Creating SSwTimer instance. AppTimer module is initialized in ApplicationInit
+
 static SSwTimer CheckDoorWindowState;
 
-
-// Action: function to perform T%H measurements
 static int performMeasurements(I2C_TypeDef *i2c, uint32_t *rhData, int32_t *tData)
 {
   Si7013_MeasureRHAndTemp(i2c, SI7021_ADDR, rhData, tData);
@@ -408,9 +390,6 @@ static EResetReason_t g_eResetReason;
  */
 static uint8_t eventJobsTimerHandle = 0;
 
-// static uint8_t supportedEvents = NOTIFICATION_EVENT_HOME_SECURITY_MOTION_DETECTION_UNKNOWN_LOCATION;
-
-
 // Reference Design Home Security Events
 static uint8_t intrusionEvent =  NOTIFICATION_EVENT_HOME_SECURITY_INTRUSION_UNKNOWN_EV;
 static uint8_t idleEvent = NOTIFICATION_EVENT_HOME_SECURITY_NO_EVENT;
@@ -511,12 +490,11 @@ void writeBatteryData(const SBatteryData* pBatteryData);
 bool CheckBatteryLevel(void);
 bool ReportBatteryLevel(void);
 
-
-// Action: Added Application data to save Door-state in NVM3 before going to EM4. Could be saved in Retention Registers once API becomes available.
+// Application data to save Door-state in NVM3 before going to EM4. Could be saved in Retention Registers once API becomes available.
 SApplicationData readApplicationData(void);
 void writeApplicationData(const SApplicationData* pApplicationData);
 
-// Action: Added logic to check state of Hall Sensor / Reed Switch
+// Logic to check state of Hall Sensor / Reed Switch
 void checkLogicLevel()
 {
 uint32_t resultPin;
@@ -558,18 +536,17 @@ applicationReedData = readApplicationData();
        }
 #endif
 }
-// ACTION: Add event on timer callback
-// callback registered in AppTimerEm4PersistentRegister() function
+
+/*
+ * ACTION: Add event on timer callback
+ * callback registered in AppTimerEm4PersistentRegister() function
+ */
 void DoorStateTimerCallback(SSwTimer *pTimer)
 {
   UNUSED(pTimer);
   DPRINTF("\r\nDoorStateTimerCallback!\r\n");
   checkLogicLevel();
 }
-
-
-// Action: Add prototype for EnableSwitch
-void EnableSwitch();
 
 /**
 * @brief Called when protocol puts a frame on the ZwRxQueue.
@@ -821,21 +798,6 @@ ApplicationInit(EResetReason_t eResetReason)
                                        ZAF_GetAppVersionPatchLevel(),
                                        ZAF_BUILD_NO);
 
-  // Action: Initialize I2C
-     CMU_ClockEnable(cmuClock_GPIO, true);
-     I2CSPM_Init(&i2cInit);
-    //Action: Hall Sensor Configuration. Enable when Hardware uses Hall Sensor (not Reed Switch)
-     GPIO_PinModeSet(gpioPortA, 3, gpioModeInputPullFilter, 1);
-     bool si7013_status = Si7013_Detect(i2cInit.port, SI7021_ADDR, NULL);
-
-   //  si72xx_status = Si72xx_WakeUpAndIdle(i2cInit.port, SI7200_ADDR_0);
- #ifdef DEBUGPRINT
-     // bool si7013_status = false;
-     uint32_t si72xx_status = 0;
-     DPRINTF("\rTemp device found: %d\r\n", si7013_status);
-     DPRINTF("\rHall device found: %d\r\n", si72xx_status);
- #endif
-
   /* Register task function */
   bool bWasTaskCreated = ZW_ApplicationRegisterTask(
                                                     ApplicationTask,
@@ -855,7 +817,7 @@ ApplicationInit(EResetReason_t eResetReason)
 static void
 ApplicationTask(SApplicationHandles* pAppHandles)
 {
-  // Init
+
   DPRINT("Enabling watchdog\n");
   WDOGn_Enable(DEFAULT_WDOG, true);
 
@@ -870,7 +832,6 @@ ApplicationTask(SApplicationHandles* pAppHandles)
   AppTimerEm4PersistentRegister(&EventJobsTimer, false, ZCB_EventJobsTimer);
   // Action: Register timer for callback
   AppTimerEm4PersistentRegister(&CheckDoorWindowState, false, DoorStateTimerCallback);
-
 
   // Initialize CC Wake Up
   CC_WakeUp_setConfiguration(WAKEUP_PAR_DEFAULT_SLEEP_TIME, DEFAULT_SLEEP_TIME);
@@ -904,8 +865,18 @@ ApplicationTask(SApplicationHandles* pAppHandles)
  //Board_EnableButton(BATTERY_REPORT_BTN);
   Board_EnableButton(APP_BUTTON_TMP);
 
-  // Defined in hall-effect-sensor-si7210.c
-  EnableSwitch();
+
+  CMU_ClockEnable(cmuClock_GPIO, true);
+  initI2C();
+  ConfigSensorPin();
+
+  #ifdef HALL_SENSOR
+  uint8_t retValue = configHallSensor();
+  if (retValue != 0) {
+      DPRINTF("Configuration of si7210 failed\n");}
+  #endif
+
+  // Configuring GPIO pin that is connected to the sensor (Pin3/PortA) on ZGM130S
 
   Board_IndicatorInit(APP_LED_INDICATOR);
   Board_IndicateStatus(BOARD_STATUS_IDLE);
@@ -926,8 +897,8 @@ ApplicationTask(SApplicationHandles* pAppHandles)
   DPRINTF("CompletedSleepDurationMs   =%u\n", GetCompletedSleepDurationMs());
 
   // Wait for and process events
-
   uint32_t iMaxTaskSleep = 0xFFFFFFFF;
+
   for (;;)
   {
     EventDistributorDistribute(&g_EventDistributor, iMaxTaskSleep, 0);
@@ -1301,13 +1272,7 @@ AppStateManager(EVENT_APP event)
         AppResetNvm();
         LoadConfiguration();
       }
-/*
-      if (EVENT_KEY_B6_PRESS == (EVENT_KEY)event)
-      {
-        DPRINT("\r\n TIMER RESTART\r\n");
-        TimerRestart(&EventJobsTimer);
-      }
-*/
+
       if (EVENT_APP_NEXT_EVENT_JOB == event)
       {
         uint8_t event;
