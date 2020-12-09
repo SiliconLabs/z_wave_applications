@@ -1,7 +1,7 @@
 /***************************************************************************//**
- * @file pir_config.h
+ * @file
  * @brief PIR Config
- * @version 1.0.3
+ * @version 1.0.2
  *******************************************************************************
  * # License
  * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -28,11 +28,10 @@
  * 3. This notice may not be removed or altered from any source distribution.
  *
  *******************************************************************************
- * # Experimental Quality
- * This code has not been formally tested and is provided as-is. It is not
- * suitable for production environments. In addition, this code will not be
- * maintained and there may be no bug maintenance planned for these resources.
- * Silicon Labs may update projects from time to time.
+ * # Evaluation Quality
+ * This code has been minimally tested to ensure that it builds and is suitable 
+ * as a demonstration for evaluation purposes only. This code will be maintained
+ * at the sole discretion of Silicon Labs.
  ******************************************************************************/
 
 #ifndef PIR_CONFIG_H_

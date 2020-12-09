@@ -89,8 +89,6 @@
 
 #include <ZAF_uart_utils.h>
 
-#include <misc.h>
-
 /*IO control*/
 #include <board.h>
 
@@ -139,7 +137,7 @@
 /* Application specific button and LED definitions                          */
 /****************************************************************************/
 
-#ifdef RADIO_BOARD_EFR32ZG13P32
+#if defined(RADIO_BOARD_EFR32ZG13P32) || defined(RADIO_BOARD_EFR32ZG13S)
   // The EFR32ZG13P32 device has reduced number of GPIO pins and hence less
   // button inputs available for the application to use. Therefore alternative
   // button mapping is required
@@ -186,7 +184,7 @@
                                                   // (i.e. it will generally not work with SensorPIR)
 
 /* Ensure we did not allocate the same physical button to more than one function */
-#ifndef RADIO_BOARD_EFR32ZG13P32 // Skipped for EFR32ZG13P32 where the shortage of GPIOs means we need to assign dual function to buttons
+#if !defined(RADIO_BOARD_EFR32ZG13P32) && !defined(RADIO_BOARD_EFR32ZG13S) // Skipped for EFR32ZG13P32 where the shortage of GPIOs means we need to assign dual function to buttons
 STATIC_ASSERT((APP_BUTTON_LEARN_RESET != PIR_EVENT_BTN) &&
               (APP_BUTTON_LEARN_RESET != BATTERY_REPORT_BTN) &&
               (PIR_EVENT_BTN != BATTERY_REPORT_BTN),
@@ -465,8 +463,6 @@ static void ChangeState( STATE_APP newState);
 void ZCB_JobStatus(TRANSMISSION_RESULT * pTransmissionResult);
 void SetDefaultConfiguration(void);
 bool LoadConfiguration(void);
-
-static void LearnCompleted(void);
 static void ApplicationTask(SApplicationHandles* pAppHandles);
 
 void ZCB_EventJobsTimer(SSwTimer *pTimer);
@@ -575,7 +571,16 @@ static void EventHandlerZwCommandStatus(void)
         DPRINTF("\r\nLearn status %d\n", Status.Content.LearnModeStatus.Status);
         if (ELEARNSTATUS_ASSIGN_COMPLETE == Status.Content.LearnModeStatus.Status)
         {
-          LearnCompleted();
+          // When security S0 or higher is set, remove all settings which happen before secure inclusion
+          // calling function SetDefaultConfiguration(). The same function is used when there is an
+          // EINCLUSIONSTATE_EXCLUDED.
+          if ( (EINCLUSIONSTATE_EXCLUDED == ZAF_GetInclusionState()) ||
+                      (SECURITY_KEY_NONE != GetHighestSecureLevel(ZAF_GetSecurityKeys())) )
+          {
+            SetDefaultConfiguration();
+          }
+          ZAF_EventHelperEventEnqueue((EVENT_APP) EVENT_SYSTEM_LEARNMODE_FINISHED);
+          ZAF_Transport_OnLearnCompleted();
         }
         else if(ELEARNSTATUS_LEARN_MODE_COMPLETED_TIMEOUT == Status.Content.LearnModeStatus.Status)
         {
@@ -899,34 +904,6 @@ Transport_ApplicationCommandHandlerEx(
   return frame_status;
 }
 
-
-static void
-LearnCompleted(void)
-{
-  uint8_t bNodeID = g_pAppHandles->pNetworkInfo->NodeId;
-  /*If bNodeID= 0xff.. learn mode failed*/
-DPRINTF("\r\n LEARN COMPLETED  bNodeID = %u\r\n", bNodeID);
-  if (bNodeID != NODE_BROADCAST)
-  {
-    /*Success*/
-    if (bNodeID == 0)
-    {
-      SetDefaultConfiguration();
-    }
-  }
-  ZAF_EventHelperEventEnqueue((EVENT_APP) EVENT_SYSTEM_LEARNMODE_FINISHED);
-  Transport_OnLearnCompleted(bNodeID);
-}
-
-/**
- * @brief See description for function prototype in misc.h.
- */
-uint8_t
-GetMyNodeID(void)
-{
-  return g_pAppHandles->pNetworkInfo->NodeId;
-}
-
 /**
  * @brief Returns the current state of the application state machine.
  * @return Current state
@@ -985,7 +962,6 @@ AppStateManager(EVENT_APP event)
          * The Battery Report must be sent out before the WakeUp Notification. Therefore this function
          * must called prior to anything CC Wakeup related.
          */
-        /*
         if (true == CheckBatteryLevel())
         {
           // Battery level has changed, so enqueue the event.
@@ -995,7 +971,7 @@ AppStateManager(EVENT_APP event)
             DPRINT("\r\n** EVENT_APP_NEXT_EVENT_JOB fail\r\n");
           }
           ZAF_JobHelperJobEnqueue(EVENT_APP_SEND_BATTERY_LEVEL_REPORT);
-        }*/
+        }
 
         CC_WakeUp_init(g_eResetReason, pFileSystemApplication);
 
@@ -1099,7 +1075,7 @@ AppStateManager(EVENT_APP event)
         Board_IndicateStatus(BOARD_STATUS_LEARNMODE_ACTIVE);
         ChangeState(STATE_APP_LEARN_MODE);
       }
-/*
+      /*
       if (PIR_EVENT_TRANSITION_TO_ACTIVE(event))
       {
         ZAF_PM_StayAwake(&m_RadioPowerLock, 0);
@@ -1114,17 +1090,16 @@ AppStateManager(EVENT_APP event)
         ZAF_JobHelperJobEnqueue(EVENT_APP_BASIC_START_JOB);
         ZAF_JobHelperJobEnqueue(EVENT_APP_NOTIFICATION_START_JOB);
         ZAF_JobHelperJobEnqueue(EVENT_APP_START_TIMER_EVENTJOB_STOP);
-      }
-*/
+      }*/
       if (EVENT_APP_MOTION_DETECTED == event)
       {
-    	DPRINT("\r\n** Motion detected!!!\r\n");
-    	ZAF_PM_StayAwake(&m_RadioPowerLock, 0);
+        DPRINT("\r\n** Motion detected!!!\r\n");
+        ZAF_PM_StayAwake(&m_RadioPowerLock, 0);
         if(eventJobsTimerStarted)
         {
-    	  AppTimerEm4PersistentRestart(&EventJobsTimer);
+          AppTimerEm4PersistentRestart(&EventJobsTimer);
         }
-    	ChangeState(STATE_APP_TRANSMIT_DATA);
+        ChangeState(STATE_APP_TRANSMIT_DATA);
 
         if (false == ZAF_EventHelperEventEnqueue(EVENT_APP_NEXT_EVENT_JOB))
         {
@@ -1139,19 +1114,19 @@ AppStateManager(EVENT_APP event)
       if (EVENT_APP_ADC_INTERRUPT == event)
       {
         // Run motion detection algorithm
-    	pir_detect_motion();
-    	// Debug samples if needed
+        pir_detect_motion();
+        // Debug samples if needed
         /*
-    	while(pir_get_queue_size() > 0)
-    	{
+        while(pir_get_queue_size() > 0)
+        {
           pir_sample_t sample;
-    	  pir_read_queue(&sample);
-    	  DPRINTF("\r\nPIR sample: %d, Motion status: %d\n", sample.adc_sample, sample.motion_status);
-    	}*/
+          pir_read_queue(&sample);
+          DPRINTF("\r\nPIR sample: %d, Motion status: %d\n", sample.adc_sample, sample.motion_status);
+        }*/
       }
       if (BTN_EVENT_SHORT_PRESS(PIR_EVENT_BTN) == (BUTTON_EVENT)event)
       {
-    	if(pirStart)
+        if(pirStart)
         {
           pirStart = false;
           pir_stop();
@@ -1180,9 +1155,12 @@ AppStateManager(EVENT_APP event)
           pir_init(&pirInit, true);
           pir_start();
         }
-
-        /* BATTERY_REPORT_BTN pressed. Send a battery level report */
-/*        DPRINT("\r\nBattery Level report transmit (keypress trig)\r\n");
+      }
+      /*
+      if (BTN_EVENT_SHORT_PRESS(BATTERY_REPORT_BTN) == (BUTTON_EVENT)event)
+      {
+        // BATTERY_REPORT_BTN pressed. Send a battery level report
+        DPRINT("\r\nBattery Level report transmit (keypress trig)\r\n");
         ChangeState(STATE_APP_TRANSMIT_DATA);
 
         if (false == ZAF_EventHelperEventEnqueue(EVENT_APP_NEXT_EVENT_JOB))
@@ -1191,10 +1169,10 @@ AppStateManager(EVENT_APP event)
         }
 
         //Add event's on job-queue
-        ZAF_JobHelperJobEnqueue(EVENT_APP_SEND_BATTERY_LEVEL_REPORT);*/
-
-      }
+        ZAF_JobHelperJobEnqueue(EVENT_APP_SEND_BATTERY_LEVEL_REPORT);
+      }*/
       break;
+
     case STATE_APP_LEARN_MODE:
       if(EVENT_APP_FLUSHMEM_READY == event)
       {
@@ -1367,9 +1345,9 @@ AppStateManager(EVENT_APP event)
         DPRINT("\r\n#EVENT_APP_FINISH_EVENT_JOB\r\n");
         if (0 == eventJobsTimerHandle)
         {
-           //Board_IndicateStatus(BOARD_STATUS_IDLE);
-           eventJobsTimerStarted = false;
-           ChangeState(STATE_APP_IDLE);
+          //Board_IndicateStatus(BOARD_STATUS_IDLE);
+          eventJobsTimerStarted = false;
+          ChangeState(STATE_APP_IDLE);
         }
       }
       break;
@@ -1384,14 +1362,14 @@ void PIR_MotionDetectCallback(bool motionOn)
 {
   if(motionOn)
   {
-	Board_SetLed(BOARD_RGB1_R, LED_OFF);
-	Board_SetLed(BOARD_RGB1_G, LED_ON);
-	GPIO_PinOutSet(MOTION_B_PORT, MOTION_B_PIN);
-	ZAF_EventHelperEventEnqueueFromISR(EVENT_APP_MOTION_DETECTED);
+  Board_SetLed(BOARD_RGB1_R, LED_OFF);
+  Board_SetLed(BOARD_RGB1_G, LED_ON);
+  GPIO_PinOutSet(MOTION_B_PORT, MOTION_B_PIN);
+  ZAF_EventHelperEventEnqueueFromISR(EVENT_APP_MOTION_DETECTED);
   }else{
-	Board_SetLed(BOARD_RGB1_R, LED_ON);
-	Board_SetLed(BOARD_RGB1_G, LED_OFF);
-	GPIO_PinOutClear(MOTION_B_PORT, MOTION_B_PIN);
+  Board_SetLed(BOARD_RGB1_R, LED_ON);
+  Board_SetLed(BOARD_RGB1_G, LED_OFF);
+  GPIO_PinOutClear(MOTION_B_PORT, MOTION_B_PIN);
   }
 }
 
@@ -1537,7 +1515,7 @@ bool CheckBatteryLevel(void)
 {
   uint8_t currentBatteryLevel;
 
-  if (0 == GetMyNodeID())
+  if (EINCLUSIONSTATE_EXCLUDED == ZAF_GetInclusionState())
   {
     // We are not network included. Nothing to do.
     DPRINTF("\r\n%s: Not included\r\n", __FUNCTION__);
@@ -1599,6 +1577,12 @@ ZCB_JobStatus(TRANSMISSION_RESULT * pTransmissionResult)
 
 /**
  * @brief Function resets configuration to default values.
+ *
+ * Add application specific functions here to initialize configuration values stored in persistent memory.
+ * Will be called at any of the following events:
+ *  - Network Exclusion
+ *  - Network Secure Inclusion (after S2 bootstrapping complete)
+ *  - Device Reset Locally
  */
 void
 SetDefaultConfiguration(void)
@@ -1614,6 +1598,8 @@ SetDefaultConfiguration(void)
 
   BatteryData.lastReportedBatteryLevel = BATTERY_DATA_UNASSIGNED_VALUE;
   writeBatteryData(&BatteryData);
+
+  loadInitStatusPowerLevel();
 
   uint32_t appVersion = ZAF_GetAppVersion();
   errCode = nvm3_writeData(pFileSystemApplication, ZAF_FILE_ID_APP_VERSION, &appVersion, ZAF_FILE_SIZE_APP_VERSION);
@@ -1668,9 +1654,6 @@ void AppResetNvm(void)
 
   Ecode_t errCode = nvm3_eraseAll(pFileSystemApplication);
   ASSERT(ECODE_NVM3_OK == errCode); //Assert has been kept for debugging , can be removed from production code. This error can only be caused by some internal flash HW failure
-
-  /* Initialize transport layer */
-  Transport_SetDefault();
 
   /* Apparently there is no valid configuration in NVM3, so load */
   /* default values and save them. */
@@ -1765,9 +1748,8 @@ ZCB_EventJobsTimer(SSwTimer *pTimer)
   if (STATE_APP_TRANSMIT_DATA != currentState)
   {
     ChangeState(STATE_APP_TRANSMIT_DATA);
+    ZAF_EventHelperEventEnqueue(EVENT_APP_NEXT_EVENT_JOB);
   }
-  // ToDo: kick off next job
-  ZAF_EventHelperEventEnqueue(EVENT_APP_NEXT_EVENT_JOB);
   UNUSED(pTimer);
 }
 
@@ -1846,3 +1828,4 @@ void CC_ManufacturerSpecific_DeviceSpecificGet_handler(device_id_type_t * pDevic
   *(pDeviceIDData + 6) = (uint8_t)(uuID >>  8);
   *(pDeviceIDData + 7) = (uint8_t)(uuID >>  0);
 }
+

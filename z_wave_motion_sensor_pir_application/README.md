@@ -15,7 +15,11 @@ Node 1 is the Z-Wave controller. Node 2 is the PIR sensor. Node 3 is the alert l
 
 ## Gecko SDK version ##
 
-v2.7.3
+v3.0.0
+
+## Z-Wave SDK version ##
+
+v7.14.1.0
 
 ## Hardware Required ##
 
@@ -36,16 +40,15 @@ v2.7.3
 
 To test the PIR sensor, you need to connect the occupancy sensor EXP board to the WSTK board through the expansion header. Then, you should program the ZGM130S with the z_wave_motion_sensor_pir_zgm130s.sls project.
 
-To add the node to Z-Wave network, you need to plug the UZB7 Controller USB Dongle into the PC and run the Z-Wave PC controller software. You can also program the other ZGM130S with the z_wave_binary_switch_zgm130s.sls
-project and add that to the Z-Wave network as the light node. The project is the same as the SwitchOnOff demo provided in Simplicity Studio. You can use the PC controller software to create the association between the
-PIR sensor node and the light node.
+To add the node to Z-Wave network, you need to plug the UZB7 Controller USB Dongle into the PC and run the Z-Wave PC controller software. You should also program the other ZGM130S with the z_wave_binary_switch_zgm130s.sls
+project and add that to the Z-Wave network as the light node. That project is the same as the SwitchOnOff demo provided in Simplicity Studio. After including 2 nodes into the Z-Wave network, you can use the PC controller software to create the association between the PIR sensor node and the light node.
 
 ## How It Works ##
 
 1. Push PB1 on WSTK to enter learn mode to add/remove the device to the network.
-2. Push PB2 on WSTK to start/stop PIR motion sensor measurements.
+2. Push PB0 on WSTK to start/stop PIR motion sensor measurements.
 3. RGB LED on the radio board will turn green whenever motion is detected.
-4. If the light node is also added to the network and the association is created, LED0 on the expansion board of the light node will also be turned on
+4. If the light node is also added to the network and the proper association is created, LED0 on the expansion board of the light node will also be turned on
    whenever motion is detected and be turned off if no motion is detected for 10s.
 
 ## .sls Projects Used ##
@@ -55,4 +58,6 @@ PIR sensor node and the light node.
 
 ## Special Notes ##
 
-Since Buttons and LEDs EXP board (BRD8029A) is replaced with Occupancy Sensor EXP board (BRD8030A) at the PIR sensor node, buttons and LEDs are limited and moved to the WSTK main board. It's required to tie pin P4 and P12 together at the Breakout Pads to allow EM4 wake-up using PB2.
+Hardware Modification: Since Buttons and LEDs EXP board (BRD8029A) is replaced with Occupancy Sensor EXP board (BRD8030A) at the PIR sensor node, both buttons and LEDs are limited in this application. It's required to tie pin P4 and P12 together at the Breakout Pads to allow EM4 wake-up using PB0.
+
+Cross Reference: This example provides a reference design using the [PIR driver](https://github.com/SiliconLabs/platform_hardware_drivers/tree/master/pir_ira_s210st01) under platform harware drivers.

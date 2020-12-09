@@ -1,7 +1,7 @@
 /***************************************************************************//**
- * @file pir.h
+ * @file
  * @brief Driver for PIR sensor
- * @version 1.0.3
+ * @version 1.0.2
  *******************************************************************************
  * # License
  * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -28,11 +28,10 @@
  * 3. This notice may not be removed or altered from any source distribution.
  *
  *******************************************************************************
- * # Experimental Quality
- * This code has not been formally tested and is provided as-is. It is not
- * suitable for production environments. In addition, this code will not be
- * maintained and there may be no bug maintenance planned for these resources.
- * Silicon Labs may update projects from time to time.
+ * # Evaluation Quality
+ * This code has been minimally tested to ensure that it builds and is suitable 
+ * as a demonstration for evaluation purposes only. This code will be maintained
+ * at the sole discretion of Silicon Labs.
  ******************************************************************************/
 
 #ifndef PIR_H
@@ -40,6 +39,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include "sl_status.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -48,6 +48,14 @@ extern "C" {
 /***************************************************************************//**
  * @addtogroup PIR
  * @{
+ 
+ @brief 
+   The implementation of PIR sensor driver using the PIR sensor on the occupancy
+   sensor EXP board. 
+   
+   The target application of the PIR sensor would be smart lighting or alarm 
+   systems in home automation. Whenever certain motion of the human body is 
+   detected, the system will either turn on the light or the alarm.
  ******************************************************************************/
 
 /// Configures whether to use the internal opamp or an external opamp.
@@ -136,12 +144,15 @@ typedef struct {
  *   Initializes peripherals for PIR
  *
  * @param[in] pir_init
- *   A pointer to PIR initialization structure
+ *   Pointer to PIR initialization structure
  *
  * @param[in] adc_enter_em2
  *   Sets up ADC to run in EM2 when set to true
+ *
+ * @return
+ *    Returns zero on OK, non-zero otherwise
  ******************************************************************************/
-void pir_init(pir_init_t *pir_init, bool adc_enter_em2);
+sl_status_t pir_init(pir_init_t *pir_init, bool adc_enter_em2);
 
 /***************************************************************************//**
  * @brief
@@ -150,38 +161,53 @@ void pir_init(pir_init_t *pir_init, bool adc_enter_em2);
  * @note
  *   This algorithms takes roughly 150us and must run on the latest ADC sample
  *   after receiving the ADC interrupt.
+ *
+ * @return
+ *    Returns zero on OK, non-zero otherwise
  ******************************************************************************/
-void pir_detect_motion(void);
+sl_status_t pir_detect_motion(void);
 
 /***************************************************************************//**
  * @brief
- *   Starts PIR sensor sampling.
+ *   Starts PIR sensor sampling
+ *
+ * @return
+ *    Returns zero on OK, non-zero otherwise
  ******************************************************************************/
-void pir_start(void);
+sl_status_t pir_start(void);
 
 /***************************************************************************//**
  * @brief
- *   Stops PIR sensor sampling.
+ *   Stops PIR sensor sampling
+ *
+ * @return
+ *    Returns zero on OK, non-zero otherwise
  ******************************************************************************/
-void pir_stop(void);
+sl_status_t pir_stop(void);
 
 /***************************************************************************//**
  * @brief
- *   Reads out a sample from the PIR sample queue.
+ *   Reads out a sample from the PIR sample queue
  *
  * @param[out] pir_sample
  *   Pointer to the PIR sample
+ *
+ * @return
+ *    Returns zero on OK, non-zero otherwise
  ******************************************************************************/
-void pir_read_queue(pir_sample_t *pir_sample);
+sl_status_t pir_read_queue(pir_sample_t *pir_sample);
 
 /***************************************************************************//**
  * @brief
  *   Gets number of samples in the queue.
  *
+ * @param[out] status
+ *   Pointer to the status
+ *
  * @return
  *   The number of samples in the queue.
  ******************************************************************************/
-uint16_t pir_get_queue_size(void);
+uint16_t pir_get_queue_size(sl_status_t *status);
 
 /** @} (end addtogroup PIR) */
 

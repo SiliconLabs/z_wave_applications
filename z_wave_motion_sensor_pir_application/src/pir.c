@@ -1,7 +1,7 @@
 /***************************************************************************//**
- * @file pir.c
- * @brief PIR driver
- * @version 1.0.3
+ * @file
+ * @brief PIR driver.
+ * @version 1.0.2
  *******************************************************************************
  * # License
  * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -28,13 +28,11 @@
  * 3. This notice may not be removed or altered from any source distribution.
  *
  *******************************************************************************
- * # Experimental Quality
- * This code has not been formally tested and is provided as-is. It is not
- * suitable for production environments. In addition, this code will not be
- * maintained and there may be no bug maintenance planned for these resources.
- * Silicon Labs may update projects from time to time.
+ * # Evaluation Quality
+ * This code has been minimally tested to ensure that it builds and is suitable 
+ * as a demonstration for evaluation purposes only. This code will be maintained
+ * at the sole discretion of Silicon Labs.
  ******************************************************************************/
-
 #include "em_cmu.h"
 #include "em_emu.h"
 #include "em_gpio.h"
@@ -320,7 +318,7 @@ static void dequeue_sample(sample_queue_t *queue, pir_sample_t *sample)
  * @param[in] adc_enter_em2
  *   Sets up ADC to run in EM2 when set to true
  ******************************************************************************/
-void pir_init(pir_init_t *pir_init, bool adc_enter_em2)
+sl_status_t pir_init(pir_init_t *pir_init, bool adc_enter_em2)
 {
   init_gpio();
   // Enable LDO to startup VPIR.
@@ -332,9 +330,16 @@ void pir_init(pir_init_t *pir_init, bool adc_enter_em2)
   pir_instance.motion_detection_callback = pir_init->motion_detection_callback;
   pir_instance.adc_irq_callback = pir_init->adc_irq_callback;
   pir_instance.use_timestamp = pir_init->use_timestamp;
+  if ((pir_instance.motion_detection_callback == NULL) ||
+		  (pir_instance.adc_irq_callback == NULL)) {
+	  return SL_STATUS_INVALID_CONFIGURATION;
+  }
 
   app_queue.size = pir_init->sample_queue_size;
   app_queue.sample = pir_init->sample_queue;
+  if (app_queue.size < 4) {
+	  return SL_STATUS_INVALID_CONFIGURATION;
+  }
 
   adc_queue.size = ADC_SAMPLE_QUEUE_SIZE;
   adc_queue.sample = adc_sample_queue;
@@ -349,15 +354,16 @@ void pir_init(pir_init_t *pir_init, bool adc_enter_em2)
   init_adc(adc_enter_em2);
 
   // Default to motion off state
-  if (pir_instance.motion_detection_callback != NULL)
-	  pir_instance.motion_detection_callback(false);
+  pir_instance.motion_detection_callback(false);
+
+  return SL_STATUS_OK;
 }
 
 /***************************************************************************//**
  * @brief
  *   Starts PIR sensor sampling.
  ******************************************************************************/
-void pir_start(void)
+sl_status_t pir_start(void)
 {
   lockout_counter = 0;
 
@@ -367,17 +373,21 @@ void pir_start(void)
   // Wake up on ADC exceeding window threshold.
   ADC_IntEnable(ADC0, ADC_IF_SINGLECMP);
   NVIC_EnableIRQ(ADC0_IRQn);
+
+  return SL_STATUS_OK;
 }
 
 /***************************************************************************//**
  * @brief
  *   Stops PIR sensor sampling.
  ******************************************************************************/
-void pir_stop(void)
+sl_status_t pir_stop(void)
 {
   ADC_IntDisable(ADC0, ADC_IF_SINGLE);
   ADC_IntDisable(ADC0, ADC_IF_SINGLECMP);
   NVIC_DisableIRQ(ADC0_IRQn);
+
+  return SL_STATUS_OK;
 }
 
 /***************************************************************************//**
@@ -388,7 +398,7 @@ void pir_stop(void)
  *   This algorithms takes roughly 150us and must run on the latest ADC sample
  *   after receiving the ADC interrupt.
  ******************************************************************************/
-void pir_detect_motion(void)
+sl_status_t pir_detect_motion(void)
 {
   bool motion = false;
   uint32_t num_of_samples = 0;
@@ -406,9 +416,11 @@ void pir_detect_motion(void)
     if (adc_source == pir_adc_source_diff) {
       adc_thresh_high = ((int16_t) ((ADC0->CMPTHR & _ADC_CMPTHR_ADGT_MASK) >> _ADC_CMPTHR_ADGT_SHIFT));
       adc_thresh_low = ((int16_t) ((ADC0->CMPTHR & _ADC_CMPTHR_ADLT_MASK) >> _ADC_CMPTHR_ADLT_SHIFT));
-    } else {
+    } else if ((adc_source == pir_adc_source_pos) || (adc_source == pir_adc_source_neg)) {
       adc_thresh_high = ((uint16_t) ((ADC0->CMPTHR & _ADC_CMPTHR_ADGT_MASK) >> _ADC_CMPTHR_ADGT_SHIFT));
       adc_thresh_low = ((uint16_t) ((ADC0->CMPTHR & _ADC_CMPTHR_ADLT_MASK) >> _ADC_CMPTHR_ADLT_SHIFT));
+    } else {
+      return SL_STATUS_FAIL;
     }
 
     // If window was broken, move window thresholds to include the latest ADC reading.
@@ -442,17 +454,17 @@ void pir_detect_motion(void)
 	lockout_counter -= (num_of_samples < lockout_counter) ? num_of_samples : lockout_counter;
     if (lockout_counter == 0) {
       // Motion off
-      if (pir_instance.motion_detection_callback != NULL)
-    	pir_instance.motion_detection_callback(false);
+      pir_instance.motion_detection_callback(false);
     }
   }
 
   // Motion On
   if (motion) {
 	lockout_counter = pir_instance.motion_on_time * 32; // 32Hz
-	if (pir_instance.motion_detection_callback != NULL)
-	  pir_instance.motion_detection_callback(true);
+	pir_instance.motion_detection_callback(true);
   }
+
+  return SL_STATUS_OK;
 }
 
 /***************************************************************************//**
@@ -480,8 +492,8 @@ void ADC0_IRQHandler(void)
 	adc_sample.timestamp_ms = last_timestamp;
 	enqueue_sample(&adc_queue, adc_sample);
   }
-  if (pir_instance.adc_irq_callback != NULL)
-	pir_instance.adc_irq_callback();
+
+  pir_instance.adc_irq_callback();
 }
 
 /***************************************************************************//**
@@ -491,9 +503,14 @@ void ADC0_IRQHandler(void)
  * @param[out] pir_sample
  *   Pointer to the PIR sample
  ******************************************************************************/
-void pir_read_queue(pir_sample_t *pir_sample)
+sl_status_t pir_read_queue(pir_sample_t *pir_sample)
 {
+  if (app_queue.sample == NULL) {
+    return SL_STATUS_FAIL;
+  }
   dequeue_sample(&app_queue, pir_sample);
+
+  return SL_STATUS_OK;
 }
 
 /***************************************************************************//**
@@ -503,7 +520,14 @@ void pir_read_queue(pir_sample_t *pir_sample)
  * @return
  *   The number of samples in the queue.
  ******************************************************************************/
-uint16_t pir_get_queue_size(void)
+uint16_t pir_get_queue_size(sl_status_t *status)
 {
+  if((app_queue.sample == NULL) || (app_queue.used < 0)) {
+    *status = SL_STATUS_FAIL;
+    return 0;
+  } else {
+	*status = SL_STATUS_OK;
+  }
+
   return app_queue.used;
 }
