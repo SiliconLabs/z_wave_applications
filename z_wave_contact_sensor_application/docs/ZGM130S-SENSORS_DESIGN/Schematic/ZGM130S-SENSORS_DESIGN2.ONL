@@ -1,0 +1,2043 @@
+(PCB "ZGM130S-SENSORS_DESIGN2"
+ (description
+  (timeStamp "2019 04 09 18 48 30")
+  (program "CAPTURE.EXE" (Version "16.6.0.d001"))
+  (source "Original data from OrCAD/CAPTURE schematic")
+  (title "ZGM130S based Contact Sensor Reference Design")
+  (date "Tuesday, April 09, 2019")
+  (document "ZGM130S based Contact Sensor Reference Design")
+  (revision "1.0")
+  (organization "")
+  (address1 "")
+  (address2 "")
+  (address3 "")
+  (address4 "")
+  (partvaluecombine "{Value}")
+  (pcbfootprintcombine "{PCB Footprint}"))
+ (structure )
+ (placement
+  (component MINI_SIMPLICITY_CONNECTOR
+   (place J1
+    (property 
+     (SiLabsPN "FTSH-105-01-F-DV-K")
+     ("PCB Footprint" "CONN2X5-FTS")
+     (timestamp 0101354D)
+     (DataSheet ftsh_smt.pdf)
+     (FPLIST "CONN2X5-FTS,CONN2X5-FTSH-K-SMT")
+     (Type Header)
+     ("Source Package" MINI_SIMPLICITY_CONNECTOR)
+     (Manufacturer Samtec)
+     (Value "Header 2x5 .05in")
+     (ManufacturerPN "FTSH-105-01-F-DV-K")
+     (Description "Header, 2x5, 0.05in pitch. Au Plated, SMT"))))
+  (component PFET_3PIN
+   (place M1
+    (property 
+     (SiLabsPN SSM3J328R,LF)
+     (Voltage "-20V")
+     ("PCB Footprint" "SOT23-GSD")
+     (timestamp 01005156)
+     (DataSheet SSM3J328R_datasheet_en_20140301.pdf)
+     (Type "P-CHNL")
+     ("Source Package" PFET_3PIN)
+     (Manufacturer Toshiba)
+     (Value SSM3J328R,LF)
+     (Rating "-6.0A")
+     (ManufacturerPN SSM3J328R,LF)
+     (Description "TRANSISTOR, MOSFET, P-CHNL, -20V, -6.0A, SOT23"))))
+  (component BATT_HOLDER_3p
+   (place BH1
+    (property 
+     (SiLabsPN "BS-06-BAA4002")
+     ("PCB Footprint" "BAT-HLDR-2032-BS-06-B4AA002")
+     (timestamp 00FE2BFA)
+     (DataSheet "BS-06-B4AA002(battery holder).pdf")
+     (Type BATTERY_HOLDER)
+     ("Source Package" BATT_HOLDER_3p)
+     (Manufacturer "HUAI YANG CO., LTD")
+     (Value "20mm COIN")
+     (ManufacturerPN "BS-06-BAA4002")
+     (Description "BATTERY HOLDER, 2032, 20mm COIN CELL, CR2032, SMT"))))
+  (component ZGM130S
+   (place U5
+    (property 
+     (SiLabsPN ZGM130S037HGN1R)
+     ("PCB Footprint" LGA64M9X9P0.5)
+     (timestamp 0100A719)
+     (DataSheet "zgm130s-datasheet.pdf")
+     (Type MCU)
+     ("Source Package" ZGM130S)
+     (Manufacturer SiLabs)
+     (Value ZGM130S037HGN1)
+     (ManufacturerPN ZGM130S037HGN1R)
+     (Description "Zen Gecko SiP Module, LGA64"))))
+  (component ORD324
+   (place SW2
+    (property 
+     (SiLabsPN "MKA-14103")
+     (Voltage 100VDC)
+     ("PCB Footprint" "SW-MKA-14103")
+     (timestamp 0100B490)
+     (DataSheet "mka_14103angl(Reed switch).pdf")
+     (Type REED)
+     ("Source Package" ORD324)
+     ("Installed Component" NI)
+     (Manufacturer "RYAZAN METAL CERAMICS INSTRUMENTAYION PLANT, JSC")
+     (Value "SW REED-NO")
+     (Rating 500mA)
+     (ManufacturerPN "MKA-14103")
+     (Description "SWITCH, SPST, REED, CONTACT FORM A, NORMAL OPEN, 500mA 100VDC, PTH"))))
+  (component "ANT_Z-WAVE_WB"
+   (place ANT1
+    (property 
+     (SiLabsPN ANT1204F005R0915A)
+     ("PCB Footprint" ANT1204)
+     (timestamp 0100A6C8)
+     (Datasheet "ANT1204F005R0915A(antenna).pdf")
+     (Type ANTENNA)
+     ("Source Package" "ANT_Z-WAVE_WB")
+     (Manufacturer Yageo)
+     (Value ANT1204F005R0915A)
+     (Rating 1W)
+     (ManufacturerPN ANT1204F005R0915A)
+     (Description "ANTENNA, FR4 Chip,  UHF (915MHZ), 1W, 12mm x 4mm, SMD"))))
+  (component TPV
+   (place TP11
+    (property 
+     (SiLabsPN TPV)
+     (Silk VBATT)
+     ("PCB Footprint" "VIA-TP")
+     (timestamp 01005293)
+     (FPLIST "TP-VIA,VIA-TP")
+     (Type "PCB Feature")
+     ("Source Package" TPV)
+     (Manufacturer N/A)
+     (Value TPV)
+     (ManufacturerPN N/A)
+     (Description "TESTPOINT Via")))
+   (place TP12
+    (property 
+     (SiLabsPN TPV)
+     (Silk VDD)
+     ("PCB Footprint" "VIA-TP")
+     (timestamp 00FFD13D)
+     (FPLIST "TP-VIA,VIA-TP")
+     (Type "PCB Feature")
+     ("Source Package" TPV)
+     (Manufacturer N/A)
+     (Value TPV)
+     (ManufacturerPN N/A)
+     (Description "TESTPOINT Via")))
+   (place TP13
+    (property 
+     (SiLabsPN TPV)
+     (Silk VDBG)
+     ("PCB Footprint" "VIA-TP")
+     (timestamp 00FFD181)
+     (FPLIST "TP-VIA,VIA-TP")
+     (Type "PCB Feature")
+     ("Source Package" TPV)
+     (Manufacturer N/A)
+     (Value TPV)
+     (ManufacturerPN N/A)
+     (Description "TESTPOINT Via")))
+   (place TP14
+    (property 
+     (SiLabsPN TPV)
+     ("PCB Footprint" "VIA-TP")
+     (Silk BATT_POS)
+     (timestamp 010032F8)
+     (FPLIST "TP-VIA,VIA-TP")
+     (Type "PCB Feature")
+     ("Source Package" TPV)
+     (Manufacturer N/A)
+     (Value TPV)
+     (ManufacturerPN N/A)
+     (Description "TESTPOINT Via")))
+   (place TP15
+    (property 
+     (SiLabsPN TPV)
+     ("PCB Footprint" "VIA-TP")
+     (Silk GND)
+     (timestamp 010051E0)
+     (FPLIST "TP-VIA,VIA-TP")
+     (Type "PCB Feature")
+     ("Source Package" TPV)
+     (Manufacturer N/A)
+     (Value TPV)
+     (ManufacturerPN N/A)
+     (Description "TESTPOINT Via")))
+   (place TP0
+    (property 
+     (SiLabsPN TPV)
+     (Silk 1)
+     ("PCB Footprint" "VIA-TP")
+     (timestamp 01013C06)
+     (Type "PCB Feature")
+     ("Source Package" TPV)
+     (Manufacturer N/A)
+     (Value TPV)
+     (ManufacturerPN N/A)
+     (Description "TESTPOINT Via")))
+   (place TP16
+    (property 
+     (SiLabsPN TPV)
+     ("PCB Footprint" "VIA-TP")
+     (Silk Vdcdc)
+     (timestamp 0100AB26)
+     (FPLIST "TP-VIA,VIA-TP")
+     (Type "PCB Feature")
+     ("Source Package" TPV)
+     (Manufacturer N/A)
+     (Value TPV)
+     (ManufacturerPN N/A)
+     (Description "TESTPOINT Via")))
+   (place TP1
+    (property 
+     (SiLabsPN TPV)
+     (Silk GND)
+     ("PCB Footprint" "VIA-TP")
+     (timestamp 01013B15)
+     (Type "PCB Feature")
+     ("Source Package" TPV)
+     (Manufacturer N/A)
+     (Value TPV)
+     (ManufacturerPN N/A)
+     (Description "TESTPOINT Via")))
+   (place TP17
+    (property 
+     (SiLabsPN TPV)
+     (Silk I2C_SDA)
+     ("PCB Footprint" "VIA-TP")
+     (timestamp 0100A977)
+     (FPLIST "TP-VIA,VIA-TP")
+     (Type "PCB Feature")
+     ("Source Package" TPV)
+     (Manufacturer N/A)
+     (Value TPV)
+     (ManufacturerPN N/A)
+     (Description "TESTPOINT Via")))
+   (place TP2
+    (property 
+     (SiLabsPN TPV)
+     ("PCB Footprint" "VIA-TP")
+     (Silk PROG)
+     (timestamp 010144E3)
+     (Type "PCB Feature")
+     ("Source Package" TPV)
+     (Manufacturer N/A)
+     (Value TPV)
+     (ManufacturerPN N/A)
+     (Description "TESTPOINT Via")))
+   (place TP18
+    (property 
+     (SiLabsPN TPV)
+     (Silk I2C_SCLK)
+     ("PCB Footprint" "VIA-TP")
+     (timestamp 0100A971)
+     (FPLIST "TP-VIA,VIA-TP")
+     (Type "PCB Feature")
+     ("Source Package" TPV)
+     (Manufacturer N/A)
+     (Value TPV)
+     (ManufacturerPN N/A)
+     (Description "TESTPOINT Via")))
+   (place TP3
+    (property 
+     (SiLabsPN TPV)
+     ("PCB Footprint" "VIA-TP")
+     (Silk TAMPER)
+     (timestamp 010144DE)
+     (Type "PCB Feature")
+     ("Source Package" TPV)
+     (Manufacturer N/A)
+     (Value TPV)
+     (ManufacturerPN N/A)
+     (Description "TESTPOINT Via")))
+   (place TP4
+    (property 
+     (SiLabsPN TPV)
+     ("PCB Footprint" "VIA-TP")
+     (Silk LED)
+     (timestamp 01014503)
+     (Type "PCB Feature")
+     ("Source Package" TPV)
+     (Manufacturer N/A)
+     (Value TPV)
+     (ManufacturerPN N/A)
+     (Description "TESTPOINT Via")))
+   (place TP25
+    (property 
+     (SiLabsPN TPV)
+     (Silk HALL)
+     ("PCB Footprint" "VIA-TP")
+     (timestamp 0100A9D8)
+     (FPLIST "TP-VIA,VIA-TP")
+     (Type "PCB Feature")
+     ("Source Package" TPV)
+     (Manufacturer N/A)
+     (Value TPV)
+     (ManufacturerPN N/A)
+     (Description "TESTPOINT Via"))))
+  (component "Si7200_5-Pin"
+   (place U6
+    (property 
+     (SiLabsPN "Si7210-B-00-IV(R)")
+     ("PCB Footprint" SOT5N2.8P0.95)
+     (timestamp 0100B120)
+     (DataSheet "Amkor SOT-23 POD.pdf")
+     (Type "Hall Effect")
+     ("Source Package" "Si7200_5-Pin")
+     (Manufacturer SiLabs)
+     (Value "Si7210-B-00")
+     (ManufacturerPN "Si7210-B-00-IV(R)")
+     (Description "IC, SENSOR, HALL EFFECT, SOT23-5"))))
+  (component LED
+   (place D1
+    (property 
+     (SiLabsPN "19-21SURC/S530-XX/TR8")
+     (Voltage 2V)
+     (Silk LED)
+     ("PCB Footprint" "LED-0603")
+     (timestamp 00FFD81B)
+     (DataSheet "19-21SURC-S530-A2-TR8.pdf")
+     (Type SMT)
+     ("Source Package" LED)
+     (Manufacturer "EVERLIGHT ELECTRONICS CO.,LTD.")
+     (Value "SUPER RED")
+     (Rating 25mA)
+     (ManufacturerPN "19-21SURC/S530-XX/TR8")
+     (Description "LED, SUPER RED, 624nM, 25mA, 2.0V, 76mcd, 0603"))))
+  (component "SW-DPDT_6PIN"
+   (place SW1
+    (property 
+     (SiLabsPN AYZ0202AGRLC)
+     ("PCB Footprint" "SW-DPDT-AYZ0202AGRLC")
+     (timestamp 00FFCF6B)
+     (DataSheet ayz.pdf)
+     (Type SLIDE)
+     ("Source Package" "SW-DPDT_6PIN")
+     (Manufacturer C&K)
+     (Value SW_SLIDE_2POS)
+     (Rating "100mA @ 12V")
+     (ManufacturerPN AYZ0202AGRLC)
+     (Description "SWITCH, DPDT, SLIDE, ON-ON, SMD"))))
+  (component "SW-PB-SPST-NO-SHORT"
+   (place S1
+    (property 
+     (Voltage 5VDC)
+     (SiLabsPN "DS-A40-AU")
+     (Silk Tamper)
+     ("PCB Footprint" "SW-DS-A40")
+     (timestamp 010114D6)
+     (DataSheet "DS-A40-AU(A)(Cover switch).pdf")
+     (Type "Detector switch")
+     ("Source Package" "SW-PB-SPST-NO-SHORT")
+     (Manufacturer "Dawning Precision Co.,Ltd")
+     (Value "DS-A40-AU")
+     (Rating 1mA)
+     (ManufacturerPN "DS-A40-AU")
+     (Description "SWITCH, SPST, Detector Switch, SMD"))))
+  (component RES
+   (place R211
+    (property 
+     (SiLabsPN "CR0402-16W-000")
+     ("PCB Footprint" R0402)
+     (timestamp 0100A6D3)
+     (DataSheet PID_CR.pdf)
+     (FPLIST R0402,R0402L)
+     (Type ThickFilm)
+     ("Source Package" RES)
+     ("Installed Component" NI)
+     (Manufacturer Venkel)
+     (Value 0)
+     (Rating 1A)
+     (ManufacturerPN "CR0402-16W-000")
+     (Description "RES, 0 Ohm, 1A, ThickFilm, 0402")))
+   (place R212
+    (property 
+     (SiLabsPN "CR0402-16W-000")
+     ("PCB Footprint" R0402)
+     (timestamp 0100A6E8)
+     (DataSheet PID_CR.pdf)
+     (FPLIST R0402,R0402L)
+     (Type ThickFilm)
+     ("Source Package" RES)
+     ("Installed Component" NI)
+     (Manufacturer Venkel)
+     (Value 0)
+     (Rating 1A)
+     (ManufacturerPN "CR0402-16W-000")
+     (Description "RES, 0 Ohm, 1A, ThickFilm, 0402")))
+   (place R214
+    (property 
+     (SiLabsPN "CR0402-16W-000")
+     ("PCB Footprint" R0402)
+     (timestamp 0100A6F5)
+     (DataSheet PID_CR.pdf)
+     (FPLIST R0402,R0402L)
+     (Type ThickFilm)
+     ("Source Package" RES)
+     (Manufacturer Venkel)
+     (Value 0)
+     (Rating 1A)
+     (ManufacturerPN "CR0402-16W-000")
+     (Description "RES, 0 Ohm, 1A, ThickFilm, 0402")))
+   (place R215
+    (property 
+     (SiLabsPN "CR0402-16W-103J")
+     ("PCB Footprint" R0402)
+     (timestamp 0100A959)
+     (DataSheet PID_CR.pdf)
+     (Type ThickFilm)
+     ("Source Package" RES)
+     (Tolerance ±5%)
+     (Manufacturer Venkel)
+     (Value 10K)
+     (Rating 1/16W)
+     (ManufacturerPN "CR0402-16W-103J")
+     (Description "RES, 10K, 1/16W, ±5%, ThickFilm, 0402")))
+   (place R216
+    (property 
+     (SiLabsPN "CR0402-16W-103J")
+     ("PCB Footprint" R0402)
+     (timestamp 0100A96B)
+     (DataSheet PID_CR.pdf)
+     (Type ThickFilm)
+     ("Source Package" RES)
+     (Tolerance ±5%)
+     (Manufacturer Venkel)
+     (Value 10K)
+     (Rating 1/16W)
+     (ManufacturerPN "CR0402-16W-103J")
+     (Description "RES, 10K, 1/16W, ±5%, ThickFilm, 0402")))
+   (place R218
+    (property 
+     (SiLabsPN "CR0402-16W-1200F")
+     ("PCB Footprint" R0402)
+     (timestamp 0100CAA9)
+     (DataSheet PID_CR.pdf)
+     (Type ThickFilm)
+     ("Source Package" RES)
+     (Tolerance ±1%)
+     (Manufacturer Venkel)
+     (Value 120)
+     (Rating 1/16W)
+     (ManufacturerPN "CR0402-16W-1200F")
+     (Description "RES, 120 Ohm, 1/16W, ±1%, ThickFilm, 0402")))
+   (place R4
+    (property 
+     (SiLabsPN "CR0402-16W-1200F")
+     ("PCB Footprint" R0402)
+     (timestamp 00FFD665)
+     (DataSheet PID_CR.pdf)
+     (Type ThickFilm)
+     ("Source Package" RES)
+     (Tolerance ±1%)
+     (Manufacturer Venkel)
+     (Value 120)
+     (Rating 1/16W)
+     (ManufacturerPN "CR0402-16W-1200F")
+     (Description "RES, 120 Ohm, 1/16W, ±1%, ThickFilm, 0402")))
+   (place R5
+    (property 
+     (SiLabsPN "CR0402-16W-2870F")
+     ("PCB Footprint" R0402)
+     (timestamp 00FFD807)
+     (DataSheet PID_CR.pdf)
+     (Type ThickFilm)
+     ("Source Package" RES)
+     (Tolerance ±1%)
+     (Manufacturer Venkel)
+     (Value 287)
+     (Rating 1/16W)
+     (ManufacturerPN "CR0402-16W-2870F")
+     (Description "RES, 287 Ohm, 1/16W, ±1%, ThickFilm, 0402")))
+   (place R9
+    (property 
+     (SiLabsPN "CR0402-16W-1001F")
+     ("PCB Footprint" R0402)
+     (timestamp 01013A9F)
+     (FPLIST R0402,R0402L)
+     (DataSheet PID_CR.pdf)
+     (Type ThickFilm)
+     ("Source Package" RES)
+     (Tolerance ±1%)
+     ("Installed Component" NI)
+     (Manufacturer Venkel)
+     (Value 1K)
+     (Rating 1/16W)
+     (ManufacturerPN "CR0402-16W-1001F")
+     (Description "RES, 1K, 1/16W, ±1%, ThickFilm, 0402"))))
+  (component Si7021E
+   (place U4
+    (property 
+     (SiLabsPN "SI7021-A20-IM1")
+     ("PCB Footprint" DFN6M3X3P1.0E)
+     (timestamp 00FFB2A8)
+     (DataSheet "si7021-a20.pdf")
+     (Type "Humidity and Temperature")
+     ("Source Package" Si7021E)
+     (Manufacturer SiLabs)
+     (Value Si7021)
+     (ManufacturerPN "SI7021-A20-IM1")
+     (Description "IC, Digital I2C Humidity and Temperature Sensor, ±3% RH, ±0.4°C, Protective Cover, DFN6"))))
+  (component CAP_POL_ALT
+   (place C19
+    (property 
+     (Voltage 10V)
+     (SiLabsPN T491D107K010AT)
+     ("PCB Footprint" C7343D)
+     (timestamp 00FFE59A)
+     (DataSheet KEM_TC101_STD.pdf)
+     (Type TANT)
+     ("Source Package" CAP_POL_ALT)
+     (Tolerance ±10%)
+     (Manufacturer Kemet)
+     (Value 100uF)
+     (ManufacturerPN T491D107K010AT)
+     (Description "CAP, 100uF, 10V, ±10%, TANT, CASE D"))))
+  (component CAP_NP
+   (place C110
+    (property 
+     (Voltage 10V)
+     (SiLabsPN "C0603X7T100-106K")
+     ("PCB Footprint" C0603)
+     (timestamp 0100AB6C)
+     (DataSheet "ZRB18AD71A106KE01-01.pdf")
+     (FPLIST C0603,C0603L)
+     (Type X7T)
+     ("Source Package" CAP_NP)
+     (Tolerance ±10%)
+     (Manufacturer Murata)
+     (Value 10uF)
+     (ManufacturerPN ZRB18AD71A106KE01L)
+     (Description "CAP, 10uF, 10V, ±10%, X7T, 0603")))
+   (place C20
+    (property 
+     (Voltage 10V)
+     (SiLabsPN "C0402X7R100-104K")
+     ("PCB Footprint" C0402)
+     (timestamp 00FFE5AA)
+     (DataSheet PID_C.pdf)
+     (FPLIST C0402,C0402L)
+     (Type X7R)
+     ("Source Package" CAP_NP)
+     (Tolerance ±10%)
+     (Manufacturer Venkel)
+     (Value 0.1uF)
+     (ManufacturerPN "C0402X7R100-104K")
+     (Description "CAP, 0.1uF, 10V, ±10%, X7R, 0402")))
+   (place C112
+    (property 
+     (Voltage 10V)
+     (SiLabsPN "C0603X7T100-106K")
+     ("PCB Footprint" C0603)
+     (timestamp 0100AB64)
+     (DataSheet "ZRB18AD71A106KE01-01.pdf")
+     (FPLIST C0603,C0603L)
+     (Type X7T)
+     ("Source Package" CAP_NP)
+     (Tolerance ±10%)
+     (Manufacturer Murata)
+     (Value 10uF)
+     (ManufacturerPN ZRB18AD71A106KE01L)
+     (Description "CAP, 10uF, 10V, ±10%, X7T, 0603")))
+   (place C21
+    (property 
+     (SiLabsPN "C0402X7R500-103K")
+     (Voltage 50V)
+     ("PCB Footprint" C0402)
+     (timestamp 00FFE5BE)
+     (FPLIST C0402,C0402L)
+     (DataSheet "muRata SMD Capacitors.pdf")
+     (Type X7R)
+     ("Source Package" CAP_NP)
+     (Tolerance ±10%)
+     (Manufacturer MuRata)
+     (Value 0.01uF)
+     (ManufacturerPN GRM155R71H103KA88D)
+     (Description "CAP, 0.01uF, 50V, ±10%, X7R, 0402")))
+   (place C22
+    (property 
+     (Voltage 25V)
+     (SiLabsPN "C0402C0G250-8R0C")
+     ("PCB Footprint" C0402)
+     (timestamp 00FFE5CE)
+     (DataSheet PID_C.pdf)
+     (Type C0G)
+     ("Source Package" CAP_NP)
+     (Tolerance ±0.25pF)
+     (Manufacturer Venkel)
+     (Value 8pF)
+     (ManufacturerPN "C0402C0G250-8R0CNE")
+     (Description "CAP, 8pF, 25V, ±0.25pF, C0G, 0402")))
+   (place C114
+    (property 
+     (SiLabsPN GRM155R71A104KA01D)
+     (Voltage 10V)
+     ("PCB Footprint" C0402)
+     (timestamp 0100AB32)
+     (FPLIST C0402,C0402L)
+     (DataSheet "muRata SMD Capacitors.pdf")
+     (Type X7R)
+     ("Source Package" CAP_NP)
+     (Tolerance ±10%)
+     (Manufacturer Murata)
+     (Value 0.1uF)
+     (ManufacturerPN GRM155R71A104KA01D)
+     (Description "CAP, 0.1uF, 10V, ±10%, X7R, 0402")))
+   (place C23
+    (property 
+     (SiLabsPN "C0603X5R6R3-475K")
+     (Voltage 6.3V)
+     ("PCB Footprint" C0603)
+     (timestamp 00FFE5DE)
+     (Part_Type CAP/NP)
+     (DataSheet PID_C.pdf)
+     (Type X5R)
+     ("Source Package" CAP_NP)
+     (Tolerance ±10%)
+     (Manufacturer Venkel)
+     (Value 4.7uF)
+     (ManufacturerPN "C0603X5R6R3-475K")
+     (Description "CAP, 4.7uF, 6.3V, ±10%, X5R, 0603")))
+   (place C115
+    (property 
+     (Voltage 10V)
+     (SiLabsPN "C0402X7R100-104K")
+     ("PCB Footprint" C0402)
+     (timestamp 0100F3C5)
+     (Part_Type CAP/NP)
+     (DataSheet PID_C.pdf)
+     (Type X7R)
+     ("Source Package" CAP_NP)
+     (Tolerance ±10%)
+     (Manufacturer Venkel)
+     (Value 0.1uF)
+     (ManufacturerPN "C0402X7R100-104K")
+     (Description "CAP, 0.1uF, 10V, ±10%, X7R, 0402")))
+   (place C24
+    (property 
+     (Voltage 50V)
+     (SiLabsPN "C0402C0G500-560G")
+     ("PCB Footprint" C0402)
+     (timestamp 0100A6DC)
+     (DataSheet "muRata SMD Capacitors.pdf")
+     (Type C0G)
+     ("Source Package" CAP_NP)
+     (Tolerance ±2%)
+     (Manufacturer MuRata)
+     (Value 56pF)
+     (ManufacturerPN GRM1555C1H560GA01D)
+     (Description "CAP, 56pF, 50V, ±2%, C0G, 0402")))
+   (place C18
+    (property 
+     (Voltage 10V)
+     (SiLabsPN "C0402X7R100-104K")
+     ("PCB Footprint" C0402)
+     (timestamp 01001657)
+     (Part_Type CAP/NP)
+     (DataSheet PID_C.pdf)
+     (Type X7R)
+     ("Source Package" CAP_NP)
+     (Tolerance ±10%)
+     (Manufacturer Venkel)
+     (Value 0.1uF)
+     (ManufacturerPN "C0402X7R100-104K")
+     (Description "CAP, 0.1uF, 10V, ±10%, X7R, 0402"))))
+  (component "SW-PB-SPST-SHORT"
+   (place S2
+    (property 
+     (Voltage 12Vdc)
+     (SiLabsPN "TS-A00-2-S076")
+     (Silk Prog)
+     ("PCB Footprint" "SW-TS-A00-2-S076")
+     (timestamp 0100CA92)
+     (DataSheet "TS-A00-2-S076(program switch).pdf")
+     (Type Tactile)
+     ("Source Package" "SW-PB-SPST-SHORT")
+     (Manufacturer "Dawning Precision Co., Ltd")
+     (Value "TS-A00-2-S076")
+     (Rating 50mA)
+     (ManufacturerPN "TS-A00-2-S076")
+     (Description "SWITCH, MOM, PB, TACTILE, SMD")))))
+ (library
+  (image RES
+   (property 
+    (sourcelib \\\\SILABS.COM\\APPS\\CIS\\LIBS\\PASSIVE.OLB))
+   (pin 999 1
+    (property 
+     (pinname 1)
+     (pintype 4)
+     (Name 1)
+     (Number 1)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" N16819917)
+     (Order 0)
+     ("Is No Connect" False)))
+   (pin 999 2
+    (property 
+     (pinname 2)
+     (pintype 4)
+     (Name 2)
+     (Number 2)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 1)
+     ("Is No Connect" False))))
+  (image CAP_NP
+   (property 
+    (sourcelib \\\\SILABS.COM\\APPS\\CIS\\LIBS\\PASSIVE.OLB))
+   (pin 999 1
+    (property 
+     (pinname 1)
+     (pintype 4)
+     (Name 1)
+     (Number 1)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" VDD)
+     (Order 0)
+     ("Is No Connect" False)))
+   (pin 999 2
+    (property 
+     (pinname 2)
+     (pintype 4)
+     (Name 2)
+     (Number 2)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 1)
+     ("Is No Connect" False))))
+  (image TPV
+   (property 
+    (sourcelib \\\\SILABS.COM\\APPS\\CIS\\LIBS\\MISC.OLB))
+   (pin 999 1
+    (property 
+     (pinname Point)
+     (pintype 4)
+     (Name Point)
+     (Number 1)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" VBATT)
+     (Order 0)
+     ("Is No Connect" False))))
+  (image Si7021E
+   (property 
+    (sourcelib \\\\SILABS.COM\\APPS\\CIS\\LIBS\\SILICONLABS.OLB))
+   (pin 999 2
+    (property 
+     (pinname GND)
+     (pintype 4)
+     (Name GND)
+     (Number 2)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 0)
+     ("Is No Connect" False)))
+   (pin 999 5
+    (property 
+     (pinname VDD)
+     (pintype 4)
+     (Name VDD)
+     (Number 5)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" VDD)
+     (Order 1)
+     ("Is No Connect" False)))
+   (pin 999 6
+    (property 
+     (pinname SCL)
+     (pintype 0)
+     (Name SCL)
+     (Number 6)
+     ("Swap Id" "-1")
+     (Type Input)
+     ("Net Name" PC11_I2C_SCLK)
+     (Order 2)
+     ("Is No Connect" False)))
+   (pin 999 1
+    (property 
+     (pinname SDA)
+     (pintype 1)
+     (Name SDA)
+     (Number 1)
+     ("Swap Id" "-1")
+     (Type Bidirectional)
+     ("Net Name" PC10_I2C_SDA)
+     (Order 3)
+     ("Is No Connect" False)
+     ("Pin Length" Line)))
+   (pin 999 3
+    (property 
+     (pinname NC)
+     (pintype 0)
+     (Name NC)
+     (Number 3)
+     ("Swap Id" "-1")
+     (Type Input)
+     (Order 4)
+     ("Is No Connect" True)
+     ("Pin Length" Line)))
+   (pin 999 4
+    (property 
+     (pinname NC)
+     (pintype 0)
+     (Name NC)
+     (Number 4)
+     ("Swap Id" "-1")
+     (Type Input)
+     (Order 5)
+     ("Is No Connect" True)
+     ("Pin Length" Line)))
+   (pin 999 7
+    (property 
+     (pinname EPAD)
+     (pintype 4)
+     (Name EPAD)
+     (Number 7)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 6)
+     ("Is No Connect" True))))
+  (image ZGM130S
+   (property 
+    (sourcelib \\\\SILABS.COM\\APPS\\CIS\\LIBS\\SILICONLABS.OLB))
+   (pin 999 37
+    (property 
+     (pinname PA2)
+     (pintype 4)
+     (Name PA2)
+     (Number 37)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 0)
+     ("Is No Connect" True)))
+   (pin 999 38
+    (property 
+     (pinname PA3)
+     (pintype 4)
+     (Name PA3)
+     (Number 38)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" PA3_HALL_OUT)
+     (Order 1)
+     ("Is No Connect" False)))
+   (pin 999 39
+    (property 
+     (pinname PA4)
+     (pintype 4)
+     (Name PA4)
+     (Number 39)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 2)
+     ("Is No Connect" True)))
+   (pin 999 45
+    (property 
+     (pinname PB13)
+     (pintype 4)
+     (Name PB13)
+     (Number 45)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" PTI_SYNC)
+     (Order 3)
+     ("Is No Connect" False)))
+   (pin 999 2
+    (property 
+     (pinname PF0)
+     (pintype 4)
+     (Name PF0)
+     (Number 2)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" SW_CLK)
+     (Order 4)
+     ("Is No Connect" False)))
+   (pin 999 3
+    (property 
+     (pinname PF1)
+     (pintype 4)
+     (Name PF1)
+     (Number 3)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" SW_DIO)
+     (Order 5)
+     ("Is No Connect" False)))
+   (pin 999 4
+    (property 
+     (pinname PF2)
+     (pintype 4)
+     (Name PF2)
+     (Number 4)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" SW_O/TDO)
+     (Order 6)
+     ("Is No Connect" False)))
+   (pin 999 35
+    (property 
+     (pinname PA0)
+     (pintype 4)
+     (Name PA0)
+     (Number 35)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" UART_TX)
+     (Order 7)
+     ("Is No Connect" False)))
+   (pin 999 36
+    (property 
+     (pinname PA1)
+     (pintype 4)
+     (Name PA1)
+     (Number 36)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" UART_RX)
+     (Order 8)
+     ("Is No Connect" False)))
+   (pin 999 41
+    (property 
+     (pinname PB11)
+     (pintype 4)
+     (Name PB11)
+     (Number 41)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 9)
+     ("Is No Connect" True)))
+   (pin 999 42
+    (property 
+     (pinname PB12)
+     (pintype 4)
+     (Name PB12)
+     (Number 42)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" PTI_DATA)
+     (Order 10)
+     ("Is No Connect" False)))
+   (pin 999 58
+    (property 
+     (pinname PC6)
+     (pintype 4)
+     (Name PC6)
+     (Number 58)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 11)
+     ("Is No Connect" True)))
+   (pin 999 59
+    (property 
+     (pinname PC7)
+     (pintype 4)
+     (Name PC7)
+     (Number 59)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 12)
+     ("Is No Connect" True)))
+   (pin 999 5
+    (property 
+     (pinname PF3)
+     (pintype 4)
+     (Name PF3)
+     (Number 5)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 13)
+     ("Is No Connect" True)))
+   (pin 999 6
+    (property 
+     (pinname PF4)
+     (pintype 4)
+     (Name PF4)
+     (Number 6)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 14)
+     ("Is No Connect" True)))
+   (pin 999 7
+    (property 
+     (pinname PF5)
+     (pintype 4)
+     (Name PF5)
+     (Number 7)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 15)
+     ("Is No Connect" True)))
+   (pin 999 8
+    (property 
+     (pinname PF6)
+     (pintype 4)
+     (Name PF6)
+     (Number 8)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 16)
+     ("Is No Connect" True)))
+   (pin 999 9
+    (property 
+     (pinname PF7)
+     (pintype 4)
+     (Name PF7)
+     (Number 9)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" PF07_PROG_BUTTON)
+     (Order 17)
+     ("Is No Connect" True)))
+   (pin 999 40
+    (property 
+     (pinname PA5)
+     (pintype 4)
+     (Name PA5)
+     (Number 40)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 18)
+     ("Is No Connect" True)))
+   (pin 999 46
+    (property 
+     (pinname PB14)
+     (pintype 4)
+     (Name PB14)
+     (Number 46)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 19)
+     ("Is No Connect" True)))
+   (pin 999 47
+    (property 
+     (pinname PB15)
+     (pintype 4)
+     (Name PB15)
+     (Number 47)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 20)
+     ("Is No Connect" True)))
+   (pin 999 60
+    (property 
+     (pinname PC8)
+     (pintype 4)
+     (Name PC8)
+     (Number 60)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 21)
+     ("Is No Connect" True)))
+   (pin 999 61
+    (property 
+     (pinname PC9)
+     (pintype 4)
+     (Name PC9)
+     (Number 61)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 22)
+     ("Is No Connect" True)))
+   (pin 999 62
+    (property 
+     (pinname PC10)
+     (pintype 4)
+     (Name PC10)
+     (Number 62)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" PC10_I2C_SDA)
+     (Order 23)
+     ("Is No Connect" False)))
+   (pin 999 63
+    (property 
+     (pinname PC11)
+     (pintype 4)
+     (Name PC11)
+     (Number 63)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" PC11_I2C_SCLK)
+     (Order 24)
+     ("Is No Connect" False)))
+   (pin 999 28
+    (property 
+     (pinname PD11)
+     (pintype 4)
+     (Name PD11)
+     (Number 28)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 25)
+     ("Is No Connect" True)))
+   (pin 999 29
+    (property 
+     (pinname PD12)
+     (pintype 4)
+     (Name PD12)
+     (Number 29)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 26)
+     ("Is No Connect" True)))
+   (pin 999 30
+    (property 
+     (pinname PD13)
+     (pintype 4)
+     (Name PD13)
+     (Number 30)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 27)
+     ("Is No Connect" True)))
+   (pin 999 31
+    (property 
+     (pinname PD14)
+     (pintype 4)
+     (Name PD14)
+     (Number 31)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" PD14_TAMPER_BUTTON)
+     (Order 28)
+     ("Is No Connect" False)))
+   (pin 999 34
+    (property 
+     (pinname PD15)
+     (pintype 4)
+     (Name PD15)
+     (Number 34)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" PD15_STAT_LED)
+     (Order 29)
+     ("Is No Connect" False)))
+   (pin 999 27
+    (property 
+     (pinname PD10)
+     (pintype 4)
+     (Name PD10)
+     (Number 27)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 30)
+     ("Is No Connect" True)))
+   (pin 999 26
+    (property 
+     (pinname PD9)
+     (pintype 4)
+     (Name PD9)
+     (Number 26)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 31)
+     ("Is No Connect" True)))
+   (pin 999 23
+    (property 
+     (pinname RF_ANT)
+     (pintype 4)
+     (Name RF_ANT)
+     (Number 23)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" N16820089)
+     (Order 0)
+     ("Is No Connect" False)))
+   (pin 999 1
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 1)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 1)
+     ("Is No Connect" False)))
+   (pin 999 10
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 10)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 2)
+     ("Is No Connect" False)))
+   (pin 999 11
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 11)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 3)
+     ("Is No Connect" False)))
+   (pin 999 13
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 13)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 4)
+     ("Is No Connect" False)))
+   (pin 999 12
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 12)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 5)
+     ("Is No Connect" False)))
+   (pin 999 14
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 14)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 6)
+     ("Is No Connect" False)))
+   (pin 999 16
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 16)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 7)
+     ("Is No Connect" False)))
+   (pin 999 17
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 17)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 8)
+     ("Is No Connect" False)))
+   (pin 999 18
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 18)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 9)
+     ("Is No Connect" False)))
+   (pin 999 19
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 19)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 10)
+     ("Is No Connect" False)))
+   (pin 999 20
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 20)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 11)
+     ("Is No Connect" False)))
+   (pin 999 21
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 21)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 12)
+     ("Is No Connect" False)))
+   (pin 999 22
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 22)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 13)
+     ("Is No Connect" False)))
+   (pin 999 32
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 32)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 14)
+     ("Is No Connect" False)))
+   (pin 999 33
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 33)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 15)
+     ("Is No Connect" False)))
+   (pin 999 43
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 43)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 16)
+     ("Is No Connect" False)))
+   (pin 999 48
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 48)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 17)
+     ("Is No Connect" False)))
+   (pin 999 49
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 49)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 18)
+     ("Is No Connect" False)))
+   (pin 999 51
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 51)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 19)
+     ("Is No Connect" False)))
+   (pin 999 53
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 53)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 20)
+     ("Is No Connect" False)))
+   (pin 999 54
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 54)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 21)
+     ("Is No Connect" False)))
+   (pin 999 55
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 55)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 22)
+     ("Is No Connect" False)))
+   (pin 999 64
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 64)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 23)
+     ("Is No Connect" False)))
+   (pin 999 25
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 25)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 24)
+     ("Is No Connect" False)))
+   (pin 999 24
+    (property 
+     (pinname GND_B)
+     (pintype 4)
+     (Name GND)
+     (Number 24)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 25)
+     ("Is No Connect" False)))
+   (pin 999 15
+    (property 
+     (pinname RESETn)
+     (pintype 4)
+     (Name RESETn)
+     (Number 15)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" Reset_n)
+     (Order 0)
+     ("Is No Connect" False)))
+   (pin 999 56
+    (property 
+     (pinname DECOUPLE)
+     (pintype 4)
+     (Name DECOUPLE)
+     (Number 56)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 1)
+     ("Is No Connect" True)))
+   (pin 999 57
+    (property 
+     (pinname VDDIO)
+     (pintype 7)
+     (Name VDDIO)
+     (Number 57)
+     ("Swap Id" "-1")
+     (Type Power)
+     ("Net Name" VDD)
+     (Order 2)
+     ("Is No Connect" False)))
+   (pin 999 50
+    (property 
+     (pinname VDCDC)
+     (pintype 4)
+     (Name VDCDC)
+     (Number 50)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" N16821023)
+     (Order 3)
+     ("Is No Connect" True)))
+   (pin 999 52
+    (property 
+     (pinname VDD)
+     (pintype 4)
+     (Name VDD)
+     (Number 52)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" VDD)
+     (Order 4)
+     ("Is No Connect" False)))
+   (pin 999 44
+    (property 
+     (pinname AVDD)
+     (pintype 4)
+     (Name AVDD)
+     (Number 44)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" VDD)
+     (Order 5)
+     ("Is No Connect" False))))
+  (image "Si7200_5-Pin"
+   (property 
+    (sourcelib \\\\SILABS.COM\\APPS\\CIS\\LIBS\\SILICONLABS.OLB))
+   (pin 999 3
+    (property 
+     (pinname SCL/DIS)
+     (pintype 0)
+     (Name SCL/DIS)
+     (Number 3)
+     ("Swap Id" "-1")
+     (Type Input)
+     ("Net Name" PC11_I2C_SCLK)
+     (Order 0)
+     ("Is No Connect" False)))
+   (pin 999 1
+    (property 
+     (pinname SDA/BISTN/TAMPERN)
+     (pintype 7)
+     (Name SDA/BISTN/TAMPERN)
+     (Number 1)
+     ("Swap Id" "-1")
+     (Type Power)
+     ("Net Name" PC10_I2C_SDA)
+     (Order 1)
+     ("Is No Connect" False)))
+   (pin 999 5
+    (property 
+     (pinname OUT)
+     (pintype 7)
+     (Name OUT)
+     (Number 5)
+     ("Swap Id" "-1")
+     (Type Power)
+     ("Net Name" PA3_HALL_OUT)
+     (Order 2)
+     ("Is No Connect" False)))
+   (pin 999 2
+    (property 
+     (pinname GND)
+     (pintype 7)
+     (Name GND)
+     (Number 2)
+     ("Swap Id" "-1")
+     (Type Power)
+     ("Net Name" GND)
+     (Order 3)
+     ("Is No Connect" False)))
+   (pin 999 4
+    (property 
+     (pinname VDD)
+     (pintype 4)
+     (Name VDD)
+     (Number 4)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" VDD)
+     (Order 4)
+     ("Is No Connect" False))))
+  (image "SW-PB-SPST-NO-SHORT"
+   (property 
+    (sourcelib \\\\SILABS.COM\\APPS\\CIS\\LIBS\\MISC.OLB))
+   (pin 999 1
+    (property 
+     (pinname 1)
+     (pintype 4)
+     (Name 1)
+     (Number 1)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" N16848231)
+     (Order 0)
+     ("Is No Connect" False)))
+   (pin 999 2
+    (property 
+     (pinname 2)
+     (pintype 4)
+     (Name 2)
+     (Number 2)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 1)
+     ("Is No Connect" False))))
+  (image "SW-PB-SPST-SHORT"
+   (property 
+    (sourcelib \\\\SILABS.COM\\APPS\\CIS\\LIBS\\MISC.OLB))
+   (pin 999 1
+    (property 
+     (pinname 1)
+     (pintype 4)
+     (Name 1)
+     (Number 1)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 0)
+     ("Is No Connect" False)))
+   (pin 999 2
+    (property 
+     (pinname 2)
+     (pintype 4)
+     (Name 2)
+     (Number 2)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" N16829089)
+     (Order 1)
+     ("Is No Connect" False))))
+  (image BATT_HOLDER_3p
+   (property 
+    (sourcelib \\\\SILABS.COM\\APPS\\CIS\\LIBS\\MISC.OLB))
+   (pin 999 1
+    (property 
+     (pinname POS)
+     (pintype 4)
+     (Name POS)
+     (Number 1)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" BATT_POS)
+     (Order 0)
+     ("Is No Connect" True)))
+   (pin 999 3
+    (property 
+     (pinname POS)
+     (pintype 4)
+     (Name POS)
+     (Number 3)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 1)
+     ("Is No Connect" True)))
+   (pin 999 2
+    (property 
+     (pinname NEG)
+     (pintype 4)
+     (Name NEG)
+     (Number 2)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 2)
+     ("Is No Connect" False))))
+  (image PFET_3PIN
+   (property 
+    (sourcelib \\\\SILABS.COM\\APPS\\CIS\\LIBS\\DISCRETE_SEMI.OLB))
+   (pin 999 G
+    (property 
+     (pinname GATE)
+     (pintype 4)
+     (Name GATE)
+     (Number G)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 0)
+     ("Is No Connect" False)))
+   (pin 999 D
+    (property 
+     (pinname DRAIN)
+     (pintype 4)
+     (Name DRAIN)
+     (Number D)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" BATT_POS)
+     (Order 1)
+     ("Is No Connect" False)))
+   (pin 999 S
+    (property 
+     (pinname SOURCE)
+     (pintype 4)
+     (Name SOURCE)
+     (Number S)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" VBATT)
+     (Order 2)
+     ("Is No Connect" False))))
+  (image MINI_SIMPLICITY_CONNECTOR
+   (property 
+    (sourcelib \\\\SILABS.COM\\APPS\\CIS\\LIBS\\CONN.OLB))
+   (pin 999 1
+    (property 
+     (pinname VAEM)
+     (pintype 4)
+     (Name VAEM)
+     (Number 1)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" VDBG)
+     (Order 0)
+     ("Is No Connect" False)))
+   (pin 999 3
+    (property 
+     (pinname RST)
+     (pintype 4)
+     (Name RST)
+     (Number 3)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" Reset_n)
+     (Order 1)
+     ("Is No Connect" False)))
+   (pin 999 5
+    (property 
+     (pinname VCOM_TX)
+     (pintype 4)
+     (Name VCOM_TX)
+     (Number 5)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" UART_TX)
+     (Order 2)
+     ("Is No Connect" False)))
+   (pin 999 9
+    (property 
+     (pinname PTI_FRAME)
+     (pintype 4)
+     (Name PTI_FRAME)
+     (Number 9)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" PTI_SYNC)
+     (Order 3)
+     ("Is No Connect" False)))
+   (pin 999 7
+    (property 
+     (pinname SWDIO)
+     (pintype 4)
+     (Name SWDIO)
+     (Number 7)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" SW_DIO)
+     (Order 4)
+     ("Is No Connect" False)))
+   (pin 999 2
+    (property 
+     (pinname GND)
+     (pintype 4)
+     (Name GND)
+     (Number 2)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 5)
+     ("Is No Connect" False)))
+   (pin 999 4
+    (property 
+     (pinname VCOM_RX)
+     (pintype 4)
+     (Name VCOM_RX)
+     (Number 4)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" UART_RX)
+     (Order 6)
+     ("Is No Connect" False)))
+   (pin 999 6
+    (property 
+     (pinname SWO)
+     (pintype 4)
+     (Name SWO)
+     (Number 6)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" SW_O/TDO)
+     (Order 7)
+     ("Is No Connect" False)))
+   (pin 999 8
+    (property 
+     (pinname SWCLK)
+     (pintype 4)
+     (Name SWCLK)
+     (Number 8)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" SW_CLK)
+     (Order 8)
+     ("Is No Connect" False)))
+   (pin 999 10
+    (property 
+     (pinname PTI_DATA)
+     (pintype 4)
+     (Name PTI_DATA)
+     (Number 10)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" PTI_DATA)
+     (Order 9)
+     ("Is No Connect" False))))
+  (image LED
+   (property 
+    (sourcelib \\\\SILABS.COM\\APPS\\CIS\\LIBS\\DISCRETE_SEMI.OLB))
+   (pin 999 A
+    (property 
+     (pinname ANODE)
+     (pintype 4)
+     (Name ANODE)
+     (Number A)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" PD15_STAT_LED)
+     (Order 0)
+     ("Is No Connect" False)))
+   (pin 999 K
+    (property 
+     (pinname CATHODE)
+     (pintype 4)
+     (Name CATHODE)
+     (Number K)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" N16766991)
+     (Order 1)
+     ("Is No Connect" False))))
+  (image "ANT_Z-WAVE_WB"
+   (property 
+    (sourcelib \\\\SILABS.COM\\APPS\\CIS\\LIBS\\PASSIVE.OLB))
+   (pin 999 1
+    (property 
+     (pinname 1)
+     (pintype 4)
+     (Name 1)
+     (Number 1)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" N16819904)
+     (Order 0)
+     ("Is No Connect" False))))
+  (image "SW-DPDT_6PIN"
+   (property 
+    (sourcelib \\\\SILABS.COM\\APPS\\CIS\\LIBS\\MISC.OLB))
+   (pin 999 1
+    (property 
+     (pinname 1)
+     (pintype 4)
+     (Name 1)
+     (Number 1)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" VBATT)
+     (Order 0)
+     ("Is No Connect" False)))
+   (pin 999 2
+    (property 
+     (pinname 2)
+     (pintype 4)
+     (Name 2)
+     (Number 2)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" VDD)
+     (Order 1)
+     ("Is No Connect" False)))
+   (pin 999 3
+    (property 
+     (pinname 3)
+     (pintype 4)
+     (Name 3)
+     (Number 3)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" VDBG)
+     (Order 2)
+     ("Is No Connect" False)))
+   (pin 999 5
+    (property 
+     (pinname 5)
+     (pintype 4)
+     (Name 5)
+     (Number 5)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 3)
+     ("Is No Connect" True)))
+   (pin 999 4
+    (property 
+     (pinname 4)
+     (pintype 4)
+     (Name 4)
+     (Number 4)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 4)
+     ("Is No Connect" True)))
+   (pin 999 6
+    (property 
+     (pinname 6)
+     (pintype 4)
+     (Name 6)
+     (Number 6)
+     ("Swap Id" "-1")
+     (Type Passive)
+     (Order 5)
+     ("Is No Connect" True))))
+  (image ORD324
+   (property 
+    (sourcelib \\\\SILABS.COM\\APPS\\CIS\\LIBS\\MISC.OLB))
+   (pin 999 1
+    (property 
+     (pinname 1)
+     (pintype 4)
+     (Name 1)
+     (Number 1)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" REED_1)
+     (Order 0)
+     ("Is No Connect" False)))
+   (pin 999 2
+    (property 
+     (pinname 2)
+     (pintype 4)
+     (Name 2)
+     (Number 2)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 1)
+     ("Is No Connect" False))))
+  (image CAP_POL_ALT
+   (property 
+    (sourcelib \\\\SILABS.COM\\APPS\\CIS\\LIBS\\PASSIVE.OLB))
+   (pin 999 1
+    (property 
+     (pinname 1)
+     (pintype 4)
+     (Name 1)
+     (Number 1)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" VDD)
+     (Order 0)
+     ("Is No Connect" False)))
+   (pin 999 2
+    (property 
+     (pinname 2)
+     (pintype 4)
+     (Name 2)
+     (Number 2)
+     ("Swap Id" "-1")
+     (Type Passive)
+     ("Net Name" GND)
+     (Order 1)
+     ("Is No Connect" False)))))
+ (network
+  (net BATT_POS
+   (pins
+     BH1-1 TP14-1 M1-D))
+  (net GND
+    (property 
+     (nettype S))
+   (pins
+     BH1-2 U4-2 R5-1 C19-2 C22-2 C23-2 C20-2 C21-2 C18-1
+     M1-G TP15-1 R211-2 U5-1 U5-10 U5-11 U5-13 U5-12 U5-14
+     U5-16 U5-17 U5-18 U5-19 U5-20 U5-21 U5-22 U5-32 U5-33
+     U5-43 U5-48 U5-49 U5-51 U5-53 U5-54 U5-55 U5-64 U5-25
+     U5-24 R212-2 C114-1 C110-2 C112-2 U6-2 SW2-2 S2-1 C115-1
+     S1-2 J1-2 TP1-1))
+  (net N16766991
+   (pins
+     R5-2 D1-K))
+  (net N16819904
+   (pins
+     R214-2 R212-1 ANT1-1))
+  (net N16819917
+   (pins
+     R214-1 R211-1 C24-2))
+  (net N16820089
+   (pins
+     U5-23 C24-1))
+  (net N16821023
+   (pins
+     TP16-1 U5-50))
+  (net N16829089
+   (pins
+     R218-2 S2-2))
+  (net N16848231
+   (pins
+     R4-2 S1-1))
+  (net PA3_HALL_OUT
+   (pins
+     TP25-1 U5-38 U6-5 R9-1))
+  (net PC10_I2C_SDA
+   (pins
+     U4-1
+    (property 
+     ("Pin Length" Line))
+     TP17-1 R215-2 U5-62 U6-1))
+  (net PC11_I2C_SCLK
+   (pins
+     U4-6 TP18-1 R216-1 U5-63 U6-3))
+  (net PD14_TAMPER_BUTTON
+   (pins
+     R4-1 U5-31 TP3-1))
+  (net PD15_STAT_LED
+   (pins
+     D1-A U5-34 TP4-1))
+  (net PF07_PROG_BUTTON
+   (pins
+     U5-9 R218-1 TP2-1))
+  (net PTI_DATA
+   (pins
+     U5-42 J1-10))
+  (net PTI_SYNC
+   (pins
+     U5-45 J1-9))
+  (net REED_1
+   (pins
+     SW2-1 R9-2 TP0-1))
+  (net RESET_N
+   (pins
+     C114-2 U5-15 J1-3))
+  (net SW_CLK
+   (pins
+     U5-2 J1-8))
+  (net SW_DIO
+   (pins
+     U5-3 J1-7))
+  (net SW_O/TDO
+   (pins
+     U5-4 J1-6))
+  (net UART_RX
+   (pins
+     U5-36 J1-4))
+  (net UART_TX
+   (pins
+     U5-35 J1-5))
+  (net VBATT
+    (property 
+     (nettype S))
+   (pins
+     SW1-1 M1-S TP11-1))
+  (net VDBG
+    (property 
+     (nettype S))
+   (pins
+     SW1-3 TP13-1 J1-1))
+  (net VDD
+    (property 
+     (nettype S))
+   (pins
+     U4-5 SW1-2 TP12-1 C19-1 C22-1 C23-1 C20-1 C21-1 C18-2
+     R216-2 R215-1 C110-1 C112-1 U5-57 U5-52 U5-44 U6-4 C115-2)))
+)
