@@ -1,9 +1,9 @@
 # Contact Sensor
-![Type badge](https://img.shields.io/badge/Type-Virtual%20application-green)
-![Technology badge](https://img.shields.io/badge/Technology-Z--Wave-green)
-![License badge](https://img.shields.io/badge/License-Zlib-green)
-![SDK badge](https://img.shields.io/badge/SDK-v3.0.2-green)
-![GCC badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/zwave_applications/z_wave_contact_sensor_application_gcc.json)
+![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/zwave_applications/z_wave_contact_sensor_application_common.json&label=Type&query=type&color=green)
+![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/zwave_applications/z_wave_contact_sensor_application_common.json&label=Technology&query=technology&color=green)
+![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/zwave_applications/z_wave_contact_sensor_application_common.json&label=License&query=license&color=green)
+![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/zwave_applications/z_wave_contact_sensor_application_common.json&label=SDK&query=sdk&color=green)
+![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/zwave_applications/z_wave_contact_sensor_application_build_status.json)
 
 ## About
 This Z-Wave 700-series based contact sensor "Reference Design" is based on a custom built hardware that is provided along with the software based on SDK 7.14.3.0 (Simplicity Studio v5) in this repository.<br>
