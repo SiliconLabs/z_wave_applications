@@ -7,7 +7,7 @@
 /****************************************************************************/
 /*                              INCLUDE FILES                               */
 /****************************************************************************/
-#include "ZAF/ApplicationUtilities/board.h"
+#include "board.h"
 //#define DEBUGPRINT
 #include "DebugPrint.h"
 #include <ZW_application_transport_interface.h>

@@ -1034,7 +1034,7 @@ AppStateManager(EVENT_APP event)
          //DPRINTF("\r\nPS1: %d, PS2: %d, PS3: %d\r\n", gestureSample.ps1, gestureSample.ps2, gestureSample.ps3);
          // Run gesture algorithm
          gesture_t gesture;
-         char *directionStrings[] = {"NONE","UP","DOWN","LEFT","RIGHT","PROX"};
+         //char *directionStrings[] = {"NONE","UP","DOWN","LEFT","RIGHT","PROX"};
          gesture = si115x_gesture_algorithm(&gestureSample);
          if ((gesture == RIGHT) || (gesture == LEFT) ||(gesture == UP) ||(gesture == DOWN))
          {
