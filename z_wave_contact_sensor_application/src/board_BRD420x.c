@@ -8,7 +8,7 @@
 /*                              INCLUDE FILES                               */
 /****************************************************************************/
 #include <ZW_typedefs.h>
-#include "ZAF/ApplicationUtilities/board.h"
+#include "board.h"
 #define DEBUGPRINT
 #include "DebugPrint.h"
 #include <ZW_radio_api.h>

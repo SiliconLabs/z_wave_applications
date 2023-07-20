@@ -65,7 +65,7 @@
 #include <ZW_classcmd.h>
 #include <ZW_TransportLayer.h>
 #include <ZAF_uart_utils.h>
-#include "ZAF/ApplicationUtilities/board.h"
+#include <board.h>
 #include <ev_man.h>
 #include <AppTimer.h>
 #include <string.h>
