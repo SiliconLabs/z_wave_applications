@@ -4,6 +4,8 @@
 ![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/zwave_applications/z_wave_contact_sensor_application_common.json&label=License&query=license&color=green)
 ![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/zwave_applications/z_wave_contact_sensor_application_common.json&label=SDK&query=sdk&color=green)
 ![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/zwave_applications/z_wave_contact_sensor_application_build_status.json)
+![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/zwave_applications/z_wave_contact_sensor_application_common.json&label=Flash&query=flash&color=blue)
+![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/zwave_applications/z_wave_contact_sensor_application_common.json&label=RAM&query=ram&color=blue)
 
 ## About
 This Z-Wave 700-series based contact sensor "Reference Design" is based on a custom built hardware that is provided along with the software based on SDK 7.14.3.0 (Simplicity Studio v5) in this repository.<br>
